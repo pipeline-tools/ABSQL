@@ -13,7 +13,7 @@ def render_text(text, **vars):
     return template.render(**vars)
 
 
-def render_file(file_path):
+def render_file(file_path, extra_context={}):
     """
     Given a file path, render sql.
     """
@@ -21,4 +21,5 @@ def render_file(file_path):
     file_contents = parse(file_path)
     sql = file_contents["sql"]
     file_contents.pop("sql")
+    file_contents.update(**extra_context)
     return render_text(sql, **file_contents)
