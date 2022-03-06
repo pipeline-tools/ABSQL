@@ -1,5 +1,5 @@
 import yaml
-from datetime import datetime, timedelta
+from absql.files.constructors import default_constructors
 
 
 def scalar_to_value(scalar):
@@ -50,12 +50,9 @@ def wrap_yaml(func):
 
 
 def generate_loader(custom_constructors={}):
-    """Generates a SafeLoader with both standard Airflow and custom constructors"""
+    """Generates a SafeLoader with both default and custom constructors"""
     loader = yaml.SafeLoader
-    default_constructor_dict = {
-        "!timedelta": timedelta,
-        "!datetime": datetime,
-    }
+    default_constructor_dict = default_constructors.copy()
 
     if isinstance(custom_constructors, list) and len(custom_constructors) > 0:
         custom_constructors = {

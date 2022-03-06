@@ -1,4 +1,5 @@
 from absql.files import parse
+from absql.files.loader import generate_loader
 from jinja2 import Environment, BaseLoader, DebugUndefined
 
 
@@ -13,12 +14,16 @@ def render_text(text, **vars):
     return template.render(**vars)
 
 
-def render_file(file_path, extra_context={}):
+def render_file(file_path, extra_context={}, extra_constructors=None):
     """
     Given a file path, render sql.
     """
 
-    file_contents = parse(file_path)
+    if extra_constructors is not None:
+        file_contents = parse(file_path, loader=generate_loader(extra_constructors))
+    else:
+        file_contents = parse(file_path)
+
     sql = file_contents["sql"]
     file_contents.pop("sql")
     file_contents.update(**extra_context)
