@@ -49,18 +49,18 @@ def wrap_yaml(func):
     return ret
 
 
-def generate_loader(custom_constructors={}):
+def generate_loader(extra_constructors={}):
     """Generates a SafeLoader with both default and custom constructors"""
     loader = yaml.SafeLoader
     default_constructor_dict = default_constructors.copy()
 
-    if isinstance(custom_constructors, list) and len(custom_constructors) > 0:
-        custom_constructors = {
-            ("!" + func.__name__): func for func in custom_constructors
+    if isinstance(extra_constructors, list) and len(extra_constructors) > 0:
+        extra_constructors = {
+            ("!" + func.__name__): func for func in extra_constructors
         }
 
-    if len(custom_constructors) > 0:
-        default_constructor_dict.update(custom_constructors)
+    if len(extra_constructors) > 0:
+        default_constructor_dict.update(extra_constructors)
     for tag, func in default_constructor_dict.items():
         loader.add_constructor(tag, wrap_yaml(func))
     return loader
