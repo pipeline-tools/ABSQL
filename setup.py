@@ -1,0 +1,23 @@
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="ABSQL",
+    version="0.0.0",
+    author="Chris Cardillo",
+    author_email="cfcardillo23@gmail.com",
+    description="Powerful SQL rendering",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/chriscardillo/ABSQL",
+    packages=setuptools.find_packages(),
+    install_requires=[],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+)
