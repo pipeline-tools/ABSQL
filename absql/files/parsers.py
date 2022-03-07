@@ -29,15 +29,15 @@ def parse_generic(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
     # Read either the frontmatter or the parsed yaml file (using "or" to coalesce them)
-    file_contents = frontmatter_load(file_path)
-    job_spec = file_contents["metadata"] or file_contents["content"]
-    return job_spec
+    raw_content = frontmatter_load(file_path)
+    file_content = raw_content["metadata"] or raw_content["content"]
+    return file_content
 
 
 def parse_sql(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
-    file_contents = frontmatter_load(file_path, loader=loader)
-    job_spec = file_contents["metadata"]
-    job_spec["sql"] = file_contents["content"]
-    return job_spec
+    raw_content = frontmatter_load(file_path, loader=loader)
+    file_content = raw_content["metadata"]
+    file_content["sql"] = raw_content["content"]
+    return file_content
