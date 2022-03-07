@@ -38,9 +38,20 @@ def test_render_additional_sql(extra_sql_path):
 
 
 def test_render_constructor_sql(constructor_sql_path):
+    def add(*nums):
+        x = 0
+        for n in nums:
+            x += n
+        return x
+
+    def first(**kwargs):
+        for i in range(len(kwargs)):
+            if i == 0:
+                return kwargs[list(kwargs.keys())[0]]
+
     def get_table():
         return "my_constructor_table"
 
-    runner = r(extra_constructors=[get_table])
+    runner = r(extra_constructors=[get_table, add, first])
     sql = runner.render(constructor_sql_path)
-    assert sql == "SELECT * FROM my_constructor_table"
+    assert sql == "SELECT * FROM my_constructor_table WHERE '6' and 'this'"
