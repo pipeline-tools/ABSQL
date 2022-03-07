@@ -1,6 +1,6 @@
 from absql.files import parse
 from absql.files.loader import generate_loader
-from jinja2 import Environment, BaseLoader, DebugUndefined
+from jinja2 import Template, DebugUndefined
 
 
 class Runner:
@@ -14,9 +14,7 @@ class Runner:
         Given some text, render the template with the vars.
         If a templated variable is unknown, leave it alone.
         """
-        template = Environment(loader=BaseLoader, undefined=DebugUndefined).from_string(
-            text
-        )
+        template = Template(text, undefined=DebugUndefined)
         return template.render(**vars)
 
     @staticmethod
