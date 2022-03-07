@@ -38,6 +38,9 @@ def test_render_additional_sql(extra_sql_path):
 
 
 def test_render_constructor_sql(constructor_sql_path):
-    runner = r(extra_constructors={"!get_table": lambda: "my_constructor_table"})
+    def get_table():
+        return "my_constructor_table"
+
+    runner = r(extra_constructors=[get_table])
     sql = runner.render(constructor_sql_path)
     assert sql == "SELECT * FROM my_constructor_table"
