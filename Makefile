@@ -14,10 +14,16 @@ stop:
 	docker stop absql-testing
 
 test:
-	docker run --entrypoint pytest --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-test absql-testing
+	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-test absql-testing pytest
 
 lint:
-	docker run --entrypoint flake8 --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing
+	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing flake8
+
+coverage:
+	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing pytest --cov=absql --cov-report=html tests/
+
+browse-coverage:
+	see htmlcov/index.html
 
 fmt:
 	black .
