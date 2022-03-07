@@ -18,3 +18,7 @@ test:
 
 lint:
 	docker run --entrypoint flake8 --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing
+
+fmt:
+	black .
+	flake8
