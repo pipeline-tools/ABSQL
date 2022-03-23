@@ -13,15 +13,9 @@ def test_leave_unknown_vars_alone():
     assert result == "SELECT * FROM my_table WHERE date = '{{ my_date }}'"
 
 
+# Would be nice to just use jinja for this
 # https://stackoverflow.com/questions/71374498/ignore-unknown-functions-in-jinja2
-# Below is a workaround for a function that you don't want to run immediately
 def test_leave_unknown_functions_alone():
-    template = (
-        "SELECT * FROM {{my_table_placeholder}} WHERE date = '{{'{{ get_date() }}'}}'"
-    )
-    # The true test
-    # template = (
-    #     "SELECT * FROM {{my_table_placeholder}} WHERE date = '{{ get_ds() }}'"
-    # )
-    result = r.render_text(template, my_table_placeholder="my_table")
+    template = "SELECT * FROM {{my_table_placeholder}} WHERE date = '{{ get_date() }}'"
+    result = r.render_text(template, my_table_placeholder="my_table", replace_only=True)
     assert result == "SELECT * FROM my_table WHERE date = '{{ get_date() }}'"
