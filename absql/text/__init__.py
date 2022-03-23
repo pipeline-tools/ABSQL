@@ -18,4 +18,4 @@ def create_replacements(**kwargs):
 
 def flatten_inputs(**kwargs):
     flattened = FlatDict(kwargs, delimiter=".")
-    return dict(flattened)
+    return flattened
