@@ -1,4 +1,5 @@
 import re
+from flatdict import FlatDict
 
 
 def clean_spacing(text):
@@ -13,3 +14,8 @@ def create_replacements(**kwargs):
         replacement = {"{{{{{k}}}}}".format(k=k): v, "{{{{ {k} }}}}".format(k=k): v}
         replacements.update(replacement)
     return replacements
+
+
+def flatten_inputs(**kwargs):
+    flattened = FlatDict(kwargs, delimiter=".")
+    return dict(flattened)

@@ -1,7 +1,7 @@
 from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
-from absql.text import clean_spacing, create_replacements
+from absql.text import clean_spacing, create_replacements, flatten_inputs
 
 
 class Runner:
@@ -17,8 +17,8 @@ class Runner:
         """
         if replace_only:
             text = clean_spacing(text)
-            replacements = create_replacements(**vars)
-            print(replacements)
+            flat_vars = flatten_inputs(**vars)
+            replacements = create_replacements(**flat_vars)
             for k, v in replacements.items():
                 text = text.replace(k, v)
             return text

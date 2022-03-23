@@ -19,3 +19,11 @@ def test_leave_unknown_functions_alone():
     template = "SELECT * FROM {{my_table_placeholder}} WHERE date = '{{ get_date() }}'"
     result = r.render_text(template, my_table_placeholder="my_table", replace_only=True)
     assert result == "SELECT * FROM my_table WHERE date = '{{ get_date() }}'"
+
+
+def test_nested_replace():
+    context = {"params": {"foo": "bar", "biz": "baz"}}
+    template = "{{ params.foo }} and {{  params.biz  }}"
+    got = r.render_text(template, replace_only=True, **context)
+    want = "bar and baz"
+    assert got == want
