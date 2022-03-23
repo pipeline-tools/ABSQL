@@ -16,7 +16,6 @@ class Runner:
         If a templated variable is unknown, leave it alone.
         """
         if replace_only:
-            pass
             text = clean_spacing(text)
             replacements = create_replacements(**vars)
             print(replacements)
