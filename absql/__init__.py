@@ -8,7 +8,8 @@ from absql.text import clean_spacing, create_replacements, flatten_inputs
 
 class Runner:
     def __init__(self, extra_context={}, extra_constructors=[], **kwargs):
-        self.extra_context = default_macros.copy().update(extra_context)
+        self.extra_context = default_macros.copy()
+        self.extra_context.update(extra_context)
         self.loader = generate_loader(extra_constructors)
 
     @staticmethod
@@ -47,12 +48,16 @@ class Runner:
 
         sql = file_contents["sql"]
         file_contents.pop("sql")
-        file_contents.update(**extra_context)
-        r = Runner()
-        file_contents = nested_apply(
-            file_contents, lambda x: r.render_text(x, replace_only, **file_contents)
+
+        rendered_context = default_macros.copy()
+        rendered_context.update(**extra_context)
+        rendered_context.update(**file_contents)
+        rendered_context = nested_apply(
+            rendered_context,
+            lambda x: Runner.render_text(x, replace_only, **rendered_context),
         )
-        return r.render_text(sql, replace_only=replace_only, **file_contents)
+
+        return Runner.render_text(sql, replace_only=replace_only, **rendered_context)
 
     def render(self, file_path, extra_context={}, replace_only=False):
         """

@@ -1,5 +1,13 @@
 import pytest
+import mock
+import os
 from absql import Runner as r
+
+
+@pytest.fixture(autouse=True)
+def mock_settings_env_vars():
+    with mock.patch.dict(os.environ, {"name": "Bob"}):
+        yield
 
 
 @pytest.fixture
@@ -37,6 +45,7 @@ def test_render_simple_yml(simple_yml_path):
     assert sql == "SELECT * FROM my_table"
 
 
+# breaking
 def test_render_additional_sql(extra_sql_path):
     sql = r.render_file(extra_sql_path, extra_context={"extra": "my_extra_context"})
     assert sql == "SELECT * FROM my_table WHERE my_extra_context"
@@ -69,4 +78,4 @@ def test_render_jinja_frontmatter(jinja_frontmatter_path):
     sql = r.render_file(
         jinja_frontmatter_path, extra_context={"get_table": provide_table}
     )
-    assert sql == "SELECT * FROM my_func_table"
+    assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"
