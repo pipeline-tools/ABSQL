@@ -78,3 +78,12 @@ def test_render_jinja_frontmatter(jinja_frontmatter_path):
         jinja_frontmatter_path, extra_context={"get_table": provide_table}
     )
     assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"
+
+
+def test_render_jinja_frontmatter_instantiated(jinja_frontmatter_path):
+    def provide_table():
+        return "my_func_table"
+
+    runner = r(extra_context={"get_table": provide_table})
+    sql = runner.render(jinja_frontmatter_path)
+    assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"
