@@ -1,3 +1,7 @@
+from .env import env_var
+from datetime import datetime, timedelta
+
+
 def nested_apply(x, f):
     if x.__class__.__name__ in ["dict", "list", "str"]:
         if isinstance(x, str):
@@ -10,3 +14,7 @@ def nested_apply(x, f):
     else:
         return x
     return x
+
+
+default_macros = {"env_var": env_var, "datetime": datetime, "timedelta": timedelta}
+default_constructors = {"!" + k: v for k, v in default_macros.items()}
