@@ -2,12 +2,13 @@ from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
 from absql.utils import nested_apply
+from absql.macros import default_macros
 from absql.text import clean_spacing, create_replacements, flatten_inputs
 
 
 class Runner:
     def __init__(self, extra_context={}, extra_constructors=[], **kwargs):
-        self.extra_context = extra_context
+        self.extra_context = default_macros.copy().update(extra_context)
         self.loader = generate_loader(extra_constructors)
 
     @staticmethod
