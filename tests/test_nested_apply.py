@@ -1,4 +1,4 @@
-from absql.macros import nested_apply
+from absql.utils import nested_apply
 
 
 def test_simple_apply():

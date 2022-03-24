@@ -1,7 +1,7 @@
 from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
-from absql.macros import nested_apply
+from absql.utils import nested_apply
 from absql.text import clean_spacing, create_replacements, flatten_inputs
 
 
