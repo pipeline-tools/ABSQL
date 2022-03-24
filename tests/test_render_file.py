@@ -45,7 +45,6 @@ def test_render_simple_yml(simple_yml_path):
     assert sql == "SELECT * FROM my_table"
 
 
-# breaking
 def test_render_additional_sql(extra_sql_path):
     sql = r.render_file(extra_sql_path, extra_context={"extra": "my_extra_context"})
     assert sql == "SELECT * FROM my_table WHERE my_extra_context"

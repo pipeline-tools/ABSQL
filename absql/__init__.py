@@ -59,11 +59,11 @@ class Runner:
 
         return Runner.render_text(sql, replace_only=replace_only, **rendered_context)
 
-    def render(self, file_path, extra_context={}, replace_only=False):
+    def render(self, file_path, replace_only=False):
         """
         Given a file, render SQL with the a combination of
         the vars in the file and any extras passed to extra_context.
         """
         return self.render_file(
-            file_path, extra_context, loader=self.loader, replace_only=replace_only
+            file_path, self.extra_context, loader=self.loader, replace_only=replace_only
         )
