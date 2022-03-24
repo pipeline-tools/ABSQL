@@ -1,6 +1,7 @@
 from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
+from absql.macros import nested_apply
 from absql.text import clean_spacing, create_replacements, flatten_inputs
 
 
@@ -46,7 +47,11 @@ class Runner:
         sql = file_contents["sql"]
         file_contents.pop("sql")
         file_contents.update(**extra_context)
-        return Runner().render_text(sql, replace_only=replace_only, **file_contents)
+        r = Runner()
+        file_contents = nested_apply(
+            file_contents, lambda x: r.render_text(x, replace_only, **file_contents)
+        )
+        return r.render_text(sql, replace_only=replace_only, **file_contents)
 
     def render(self, file_path, extra_context={}, replace_only=False):
         """

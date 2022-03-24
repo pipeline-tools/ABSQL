@@ -22,6 +22,11 @@ def constructor_sql_path():
     return "tests/files/constructor.sql"
 
 
+@pytest.fixture
+def jinja_frontmatter_path():
+    return "tests/files/jinja_frontmatter.sql"
+
+
 def test_render_simple_sql(simple_sql_path):
     sql = r.render_file(simple_sql_path)
     assert sql == "SELECT * FROM my_table"
@@ -55,3 +60,13 @@ def test_render_constructor_sql(constructor_sql_path):
     runner = r(extra_constructors=[get_table, add, first])
     sql = runner.render(constructor_sql_path)
     assert sql == "SELECT * FROM my_constructor_table WHERE '6' and 'this'"
+
+
+def test_render_jinja_frontmatter(jinja_frontmatter_path):
+    def provide_table():
+        return "my_func_table"
+
+    sql = r.render_file(
+        jinja_frontmatter_path, extra_context={"get_table": provide_table}
+    )
+    assert sql == "SELECT * FROM my_func_table"
