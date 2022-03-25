@@ -1,4 +1,8 @@
+duckdb==0.3.2
+duckdb-engine==0.1.8
 flatdict==4.0.1
 Jinja2==3.0.3
 mock==4.0.3
+pandas==1.4.1
 PyYAML==6.0.0
+SQLAlchemy==1.4.32
