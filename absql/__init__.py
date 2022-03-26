@@ -1,5 +1,5 @@
 from inspect import cleandoc
-from absql.files import parse
+from absql.files import parse, accepted_file_types
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
 from absql.macros import default_macros
@@ -79,6 +79,15 @@ class Runner:
         Given a file, render SQL with the a combination of
         the vars in the file and any extras passed to extra_context.
         """
-        return self.render_file(
-            file_path, self.extra_context, loader=self.loader, replace_only=replace_only
-        )
+        # Should this also render text if the proper file extensions are not found?
+        if file_path.endswith(accepted_file_types):
+            return self.render_file(
+                file_path,
+                self.extra_context,
+                loader=self.loader,
+                replace_only=replace_only,
+            )
+        else:
+            return self.render_text(
+                file_path, replace_only, **self.render_context(self.extra_context)
+            )

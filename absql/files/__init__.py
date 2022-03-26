@@ -9,6 +9,8 @@ default_parsers = {
     ".sql": parse_sql,
 }
 
+accepted_file_types = tuple(default_parsers.keys())
+
 
 def parse(file_path, parse_dict=default_parsers, loader=None):
     """
