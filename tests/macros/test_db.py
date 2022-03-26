@@ -4,6 +4,7 @@ import pytest
 from pandas import DataFrame
 from sqlalchemy import create_engine
 from absql.macros.db import table_exists, query_db
+from absql import Runner
 
 
 @pytest.fixture(scope="module")
@@ -46,3 +47,12 @@ def test_query_db(engine):
     assert len(res) == 1
     assert res[0].name == "Bonnie"
     assert res[0].friend == "Clyde"
+
+
+def test_db_macros_in_runner(engine):
+    runner = Runner(extra_context={"engine": engine})
+    got = runner.render(
+        "{{query_db('SELECT COUNT(*) n FROM my_table') | first | attr('n')}}"
+    )
+    want = "2"
+    assert got == want
