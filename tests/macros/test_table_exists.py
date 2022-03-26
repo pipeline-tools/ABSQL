@@ -3,7 +3,7 @@ import mock
 import pytest
 from pandas import DataFrame
 from sqlalchemy import create_engine
-from absql.macros.db import table_exists
+from absql.macros.db import table_exists, query_db
 
 
 @pytest.fixture(scope="module")
@@ -37,3 +37,10 @@ def mock_settings_env_vars():
 def test_ab_uri():
     exists_false = table_exists("some_table")
     assert exists_false is False
+
+
+def test_query_db(engine):
+    res = query_db("SELECT name, friend FROM my_table WHERE friend = 'Clyde'", engine)
+    assert len(res) == 1
+    assert res[0].name == "Bonnie"
+    assert res[0].friend == "Clyde"

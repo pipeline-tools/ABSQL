@@ -18,6 +18,13 @@ def table_exists(table_location, engine=None, engine_env="AB__URI"):
         return engine.reflection.Inspector.has_table(table_name=table, schema=namespace)
 
 
+def query_db(query, engine=None, engine_env="AB__URI"):
+    engine = (
+        handle_engine(env_var(engine_env)) if engine is None else handle_engine(engine)
+    )
+    return engine.execute(query).fetchall()
+
+
 def handle_engine(engine):
     if isinstance(engine, Engine):
         return engine
