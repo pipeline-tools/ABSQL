@@ -20,6 +20,9 @@ class Runner:
         If a templated variable is unknown, leave it alone.
         """
 
+        # Allows an instantiated SQLAlchemy engine to be utilized
+        # in any macro with a engine argument, without the user needing
+        # to specify the engine in the macro call.
         engine = vars.get("engine", None)
         for k, v in vars.items():
             if v.__class__.__name__ == "function":
@@ -39,6 +42,11 @@ class Runner:
 
     @staticmethod
     def render_context(extra_context=None, file_contents=None):
+        """
+        Render context dictionaries passed through a function call or
+        file frontmatter (file_contents), with file_contents taking
+        precedence over other all other provided context.
+        """
         rendered_context = default_macros.copy()
         if extra_context:
             rendered_context.update(**extra_context)
@@ -59,7 +67,7 @@ class Runner:
         replace_only=False,
     ):
         """
-        Given a file, render SQL with the a combination of
+        Given a file path, render SQL with a combination of
         the vars in the file and any extras passed to extra_context.
         """
         if loader is None:
@@ -74,20 +82,20 @@ class Runner:
 
         return Runner.render_text(sql, replace_only=replace_only, **rendered_context)
 
-    def render(self, file_path, replace_only=False):
+    def render(self, text, replace_only=False):
         """
-        Given a file, render SQL with the a combination of
-        the vars in the file and any extras passed to extra_context.
+        Given text or a file path, render SQL with the a combination of
+        the vars in the file and any extras passed to extra_context during
+        the instantiation of the runner.
         """
-        # Should this also render text if the proper file extensions are not found?
-        if file_path.endswith(accepted_file_types):
+        if text.endswith(accepted_file_types):
             return self.render_file(
-                file_path,
+                text,
                 self.extra_context,
                 loader=self.loader,
                 replace_only=replace_only,
             )
         else:
             return self.render_text(
-                file_path, replace_only, **self.render_context(self.extra_context)
+                text, replace_only, **self.render_context(self.extra_context)
             )
