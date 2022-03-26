@@ -1,3 +1,6 @@
+from inspect import signature
+
+
 def nested_apply(x, f):
     if x.__class__.__name__ in ["dict", "list", "str"]:
         if isinstance(x, str):
@@ -10,3 +13,7 @@ def nested_apply(x, f):
     else:
         return x
     return x
+
+
+def get_function_arg_names(func):
+    return list(signature(func).parameters.keys())
