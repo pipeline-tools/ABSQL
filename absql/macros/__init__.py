@@ -8,6 +8,6 @@ default_macros = {
     "env_var": env_var,
     "table_exists": table_exists,
     "timedelta": timedelta,
-    "query_db": query_db
+    "query_db": query_db,
 }
 default_constructors = {"!" + k: v for k, v in default_macros.items()}
