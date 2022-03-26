@@ -1,3 +1,4 @@
+from inspect import cleandoc
 from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
@@ -24,10 +25,10 @@ class Runner:
             replacements = create_replacements(**flat_vars)
             for k, v in replacements.items():
                 text = text.replace(k, v)
-            return text
+            return cleandoc(text)
         else:
             template = Template(text, undefined=DebugUndefined)
-            return template.render(**vars)
+            return cleandoc(template.render(**vars))
 
     @staticmethod
     def render_file(
