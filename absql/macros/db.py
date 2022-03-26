@@ -12,9 +12,9 @@ def table_exists(table_location, engine=None, engine_env="AB__URI"):
     engine = (
         handle_engine(env_var(engine_env)) if engine is None else handle_engine(engine)
     )
-    try:
+    if hasattr(engine, "has_table"):
         return engine.has_table(table_name=table, schema=namespace)
-    except Exception:
+    else:
         return engine.reflection.Inspector.has_table(table_name=table, schema=namespace)
 
 
