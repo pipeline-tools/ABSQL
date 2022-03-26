@@ -2,9 +2,9 @@ from inspect import cleandoc
 from absql.files import parse
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
-from absql.utils import nested_apply
 from absql.macros import default_macros
 from absql.text import clean_spacing, create_replacements, flatten_inputs
+from absql.utils import nested_apply, get_function_arg_names, partialize_engine_func
 
 
 class Runner:
@@ -19,6 +19,13 @@ class Runner:
         Given some text, render the template with the vars.
         If a templated variable is unknown, leave it alone.
         """
+
+        engine = vars.get("engine", None)
+        for k, v in vars.items():
+            if v.__class__.__name__ == "function":
+                if "engine" in get_function_arg_names(v):
+                    vars[k] = partialize_engine_func(v, engine=engine)
+
         if replace_only:
             text = clean_spacing(text)
             flat_vars = flatten_inputs(**vars)
