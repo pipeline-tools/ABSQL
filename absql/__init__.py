@@ -31,7 +31,7 @@ class Runner:
             flat_vars = flatten_inputs(**vars)
             replacements = create_replacements(**flat_vars)
             for k, v in replacements.items():
-                text = text.replace(k, v)
+                text = text.replace(k, str(v))
             return cleandoc(text)
         else:
             template = Template(text, undefined=DebugUndefined)
