@@ -38,6 +38,19 @@ class Runner:
             return cleandoc(template.render(**vars))
 
     @staticmethod
+    def render_context(extra_context=None, file_contents=None):
+        rendered_context = default_macros.copy()
+        if extra_context:
+            rendered_context.update(**extra_context)
+        if file_contents:
+            rendered_context.update(**file_contents)
+        rendered_context = nested_apply(
+            rendered_context,
+            lambda x: Runner.render_text(x, **rendered_context),
+        )
+        return rendered_context
+
+    @staticmethod
     def render_file(
         file_path,
         extra_context={},
@@ -57,13 +70,7 @@ class Runner:
         sql = file_contents["sql"]
         file_contents.pop("sql")
 
-        rendered_context = default_macros.copy()
-        rendered_context.update(**extra_context)
-        rendered_context.update(**file_contents)
-        rendered_context = nested_apply(
-            rendered_context,
-            lambda x: Runner.render_text(x, replace_only, **rendered_context),
-        )
+        rendered_context = Runner.render_context(extra_context, file_contents)
 
         return Runner.render_text(sql, replace_only=replace_only, **rendered_context)
 
