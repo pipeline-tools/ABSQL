@@ -11,7 +11,12 @@ def engine():
     engine = create_engine("duckdb:///:memory:")
     engine.execute(
         "register",
-        ("my_table", DataFrame.from_dict({"name": ["Thelma"], "friend": "Louise"})),
+        (
+            "my_table",
+            DataFrame.from_dict(
+                {"name": ["Thelma", "Bonnie"], "friend": ["Louise", "Clyde"]}
+            ),
+        ),
     )
     return engine
 
