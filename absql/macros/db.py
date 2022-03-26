@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 
 
-def table_exists(table_location, engine=None, engine_env="AB__URI"):
+def table_exists(table_location, engine_env="AB__URI", engine=None):
     table_parts = table_location.split(".")
     table = table_parts[-1]
     namespace = (
@@ -18,7 +18,7 @@ def table_exists(table_location, engine=None, engine_env="AB__URI"):
         return engine.reflection.Inspector.has_table(table_name=table, schema=namespace)
 
 
-def query_db(query, engine=None, engine_env="AB__URI"):
+def query_db(query, engine_env="AB__URI", engine=None):
     engine = (
         handle_engine(env_var(engine_env)) if engine is None else handle_engine(engine)
     )

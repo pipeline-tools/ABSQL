@@ -22,8 +22,8 @@ def engine():
 
 
 def test_table_exists(engine):
-    exists_true = table_exists("my_table", engine)
-    exists_false = table_exists("nonexistent_table", engine)
+    exists_true = table_exists("my_table", engine=engine)
+    exists_false = table_exists("nonexistent_table", engine=engine)
     assert exists_true
     assert exists_false is False
 
@@ -40,7 +40,7 @@ def test_ab_uri():
 
 
 def test_query_db(engine):
-    res = query_db("SELECT name, friend FROM my_table WHERE friend = 'Clyde'", engine)
+    res = query_db("SELECT name, friend FROM my_table WHERE friend = 'Clyde'", engine=engine)
     assert len(res) == 1
     assert res[0].name == "Bonnie"
     assert res[0].friend == "Clyde"
