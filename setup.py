@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/chriscardillo/ABSQL",
     packages=setuptools.find_packages(),
-    install_requires=["flatdict", "Jinja2", "PyYaml", "SQLAlchemy"],
+    install_requires=["flatdict", "Jinja2", "pendulum", "PyYaml", "SQLAlchemy"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
