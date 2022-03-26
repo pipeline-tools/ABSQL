@@ -40,7 +40,9 @@ def test_ab_uri():
 
 
 def test_query_db(engine):
-    res = query_db("SELECT name, friend FROM my_table WHERE friend = 'Clyde'", engine=engine)
+    res = query_db(
+        "SELECT name, friend FROM my_table WHERE friend = 'Clyde'", engine=engine
+    )
     assert len(res) == 1
     assert res[0].name == "Bonnie"
     assert res[0].friend == "Clyde"
