@@ -1,5 +1,5 @@
 import os
-import inspect
+from absql.utils import get_function_arg_names
 from absql.files.loader import generate_loader
 from absql.files.parsers import parse_generic, parse_sql
 
@@ -22,7 +22,7 @@ def parse(file_path, parse_dict=default_parsers, loader=None):
 
     parser = parse_dict[extension]
 
-    if "loader" in inspect.signature(parser).parameters.keys():
+    if "loader" in get_function_arg_names(parser):
         file_parsed = parser(file_path, loader=loader)
     else:
         file_parsed = parser(file_path)
