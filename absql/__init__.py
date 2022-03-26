@@ -8,10 +8,11 @@ from absql.utils import nested_apply, get_function_arg_names, partialize_engine_
 
 
 class Runner:
-    def __init__(self, extra_context={}, extra_constructors=[], **kwargs):
+    def __init__(self, extra_context={}, extra_constructors=[], replace_only=False):
         self.extra_context = default_macros.copy()
         self.extra_context.update(extra_context)
         self.loader = generate_loader(extra_constructors)
+        self.replace_only = replace_only
 
     @staticmethod
     def render_text(text, replace_only=False, **vars):
@@ -80,9 +81,9 @@ class Runner:
 
         rendered_context = Runner.render_context(extra_context, file_contents)
 
-        return Runner.render_text(sql, replace_only=replace_only, **rendered_context)
+        return Runner.render_text(sql, replace_only, **rendered_context)
 
-    def render(self, text, replace_only=False):
+    def render(self, text):
         """
         Given text or a file path, render SQL with the a combination of
         the vars in the file and any extras passed to extra_context during
@@ -93,9 +94,9 @@ class Runner:
                 text,
                 self.extra_context,
                 loader=self.loader,
-                replace_only=replace_only,
+                replace_only=self.replace_only,
             )
         else:
             return self.render_text(
-                text, replace_only, **self.render_context(self.extra_context)
+                text, self.replace_only, **self.render_context(self.extra_context)
             )
