@@ -1,4 +1,5 @@
 from inspect import signature
+from functools import partial
 
 
 def nested_apply(x, f):
@@ -17,3 +18,10 @@ def nested_apply(x, f):
 
 def get_function_arg_names(func):
     return list(signature(func).parameters.keys())
+
+
+def partialize_engine_func(func, engine):
+    if "engine" in get_function_arg_names(func):
+        return partial(func, engine=engine)
+    else:
+        return func

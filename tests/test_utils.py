@@ -1,4 +1,4 @@
-from absql.utils import nested_apply, get_function_arg_names
+from absql.utils import nested_apply, get_function_arg_names, partialize_engine_func
 
 
 def test_simple_apply():
@@ -27,5 +27,15 @@ def test_get_function_arg_names():
         return a + b
 
     got = get_function_arg_names(func)
-    want = ['a', 'b']
+    want = ["a", "b"]
+    assert got == want
+
+
+def test_partialize_engine_func():
+    def simple_func(a, engine):
+        return a + engine
+
+    simple_func = partialize_engine_func(simple_func, 7)
+    got = simple_func(3)
+    want = 10
     assert got == want
