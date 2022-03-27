@@ -4,7 +4,7 @@ from .time import previous_date, previous_hour
 from datetime import datetime, timedelta
 
 
-default_macros = {
+default_functions = {
     "datetime": datetime,
     "env_var": env_var,
     "previous_date": previous_date,
@@ -13,4 +13,4 @@ default_macros = {
     "timedelta": timedelta,
     "query_db": query_db,
 }
-default_constructors = {"!" + k: v for k, v in default_macros.items()}
+default_constructors = {"!" + k: v for k, v in default_functions.items()}

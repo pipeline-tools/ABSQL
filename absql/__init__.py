@@ -2,7 +2,7 @@ from inspect import cleandoc
 from absql.files import parse, accepted_file_types
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
-from absql.functions import default_macros
+from absql.functions import default_functions
 from absql.text import clean_spacing, create_replacements, flatten_inputs
 from absql.utils import nested_apply, get_function_arg_names, partialize_engine_func
 
@@ -47,7 +47,7 @@ class Runner:
         file frontmatter (file_contents), with file_contents taking
         precedence over other all other provided context.
         """
-        rendered_context = default_macros.copy()
+        rendered_context = default_functions.copy()
         if extra_context:
             rendered_context.update(**extra_context)
         if file_contents:

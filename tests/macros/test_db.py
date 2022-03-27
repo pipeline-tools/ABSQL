@@ -49,7 +49,7 @@ def test_query_db(engine):
     assert res[0].friend == "Clyde"
 
 
-def test_db_macros_in_runner(engine):
+def test_db_functions_in_runner(engine):
     runner = Runner(engine=engine)
     got = runner.render(
         "{{query_db('SELECT COUNT(*) n FROM my_table') | first | attr('n')}}"
