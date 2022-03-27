@@ -38,7 +38,10 @@ def get_max_value(field_location, engine_env="AB__URI", engine=None):
     query = "SELECT MAX({field}) AS value FROM {table}".format(
         field=field_parts["target"], table=field_parts["namespace"]
     )
-    return query_db(query, engine_env, engine)[0].value
+    try:
+        return query_db(query, engine_env, engine)[0].value
+    except Exception:
+        return None
 
 
 def get_min_value(field_location, engine_env="AB__URI", engine=None):
@@ -47,7 +50,10 @@ def get_min_value(field_location, engine_env="AB__URI", engine=None):
     query = "SELECT MIN({field}) AS value FROM {table}".format(
         field=field_parts["target"], table=field_parts["namespace"]
     )
-    return query_db(query, engine_env, engine)[0].value
+    try:
+        return query_db(query, engine_env, engine)[0].value
+    except Exception:
+        return None
 
 
 def split_parts(location):

@@ -78,3 +78,11 @@ def test_get_min_value_null(engine):
     got = get_min_value("my_table.name", engine=engine)
     want = "Bonnie"
     assert got == want
+
+
+def test_get_minmax_value_no_table(engine):
+    got = get_min_value("nonexistent_table.nonexistent_column", engine=engine)
+    want = None
+    assert got == want
+    got = get_max_value("nonexistent_table.nonexistent_column", engine=engine)
+    assert got == want
