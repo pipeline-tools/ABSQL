@@ -1,4 +1,4 @@
-from absql.macros.env import env_var
+from absql.functions.env import env_var
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine
 

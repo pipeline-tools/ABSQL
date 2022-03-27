@@ -3,7 +3,7 @@ import mock
 import pytest
 from pandas import DataFrame
 from sqlalchemy import create_engine
-from absql.macros.db import table_exists, query_db
+from absql.functions.db import table_exists, query_db
 from absql import Runner
 
 

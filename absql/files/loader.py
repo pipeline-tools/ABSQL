@@ -1,5 +1,5 @@
 import yaml
-from absql.macros import default_constructors
+from absql.functions import default_constructors
 
 
 def scalar_to_value(scalar):
