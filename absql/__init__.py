@@ -9,8 +9,7 @@ from absql.utils import nested_apply, get_function_arg_names, partialize_engine_
 
 class Runner:
     def __init__(self, extra_context={}, extra_constructors=[], replace_only=False):
-        self.extra_context = default_macros.copy()
-        self.extra_context.update(extra_context)
+        self.extra_context = extra_context
         self.loader = generate_loader(extra_constructors)
         self.replace_only = replace_only
 
