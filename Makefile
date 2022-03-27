@@ -14,13 +14,13 @@ stop:
 	docker stop absql-testing
 
 test:
-	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-test absql-testing pytest
+	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-test absql-testing pytest --disable-warnings
 
 lint:
 	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing flake8
 
 coverage:
-	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing pytest --cov=absql --cov-report=html tests/
+	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-lint absql-testing pytest --disable-warnings --cov=absql --cov-report=html tests/
 
 browse-coverage:
 	see htmlcov/index.html
