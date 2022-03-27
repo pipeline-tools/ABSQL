@@ -174,6 +174,8 @@ From here, you can:
 - `make test` - Runs `pytest` in a temporary container.
 - `make coverage` - Runs `pytest` and generates a coverage report.
 - `make browse-coverage` - Opens up the coverage report in your browser.
+- `make stop` - Stop the running container.
+- `make start` - Start a stopped container.
 
 ## Rebuilding the Image
 
