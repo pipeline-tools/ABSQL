@@ -3,7 +3,7 @@ import mock
 import pytest
 from pandas import DataFrame
 from sqlalchemy import create_engine
-from absql.functions.db import table_exists, query_db
+from absql.functions.db import table_exists, query_db, get_max_value
 from absql import Runner
 
 
@@ -15,7 +15,11 @@ def engine():
         (
             "my_table",
             DataFrame.from_dict(
-                {"name": ["Thelma", "Bonnie"], "friend": ["Louise", "Clyde"]}
+                {
+                    "name": ["Thelma", "Bonnie"],
+                    "friend": ["Louise", "Clyde"],
+                    "empty": [None, None],
+                }
             ),
         ),
     )
@@ -55,4 +59,16 @@ def test_db_functions_in_runner(engine):
         "{{query_db('SELECT COUNT(*) n FROM my_table') | first | attr('n')}}"
     )
     want = "2"
+    assert got == want
+
+
+def test_get_max_value(engine):
+    got = get_max_value("my_table.name", engine=engine)
+    want = "Thelma"
+    assert got == want
+
+
+def test_get_max_value_null(engine):
+    got = get_max_value("my_table.empty", engine=engine)
+    want = None
     assert got == want

@@ -1,5 +1,5 @@
 from .env import env_var, env_switch
-from .db import table_exists, query_db
+from .db import table_exists, query_db, get_max_value
 from .time import previous_date, previous_hour
 from datetime import datetime, timedelta
 
@@ -8,6 +8,7 @@ default_functions = {
     "datetime": datetime,
     "env_switch": env_switch,
     "env_var": env_var,
+    "get_max_value": get_max_value,
     "previous_date": previous_date,
     "previous_hour": previous_hour,
     "table_exists": table_exists,
