@@ -106,18 +106,18 @@ See below for a full list of builtin functions.
 
 The following functions are available in any instantiated runner:
 
-| Category | Function      | Description                                                                                   | Example                                           |
-| -------- | ------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| database | get_max_value | Get the maximum value of a column.                                                            | `get_max_value("my_schema.my_table.my_column")`   |
-| database | get_min_value | Get the minimum value of a column.                                                            | `get_min_value("my_schema.my_table.my_column")`   |
-| database | table_exists  | TRUE/FALSE if the table exists in the database.                                               | `table_exists("my_schema.my_table")`              |
-| database | query_db      | Send any query to the database and get back the results.                                      | `query_db("SELECT name FROM my_schema.my_table")` |
-| env      | env_switch    | Switch a value based on the given environment (an environment variable of "ENV" by default).  | `env_switch(dev=10, prod=500, default=30)`        |
-| env      | env_var       | Retrieve a value from an environment variable.                                                | `env_var("MY_ENVIRONMENT_VARIABLE")`              |
-| time     | datetime      | Python's `datetime.datetime` function.                                                        | `datetime(2022, 1, 1)`                            |
-| time     | previous_date | Get a date string for the previous date (based on UTC by default).                            | `previous_date()`                                 |
-| time     | previous_hour | Get a datetime string the previous hour (based on UTC by default).                            | `previous_hour()`                                 |
-| time     | timedelta     | Python's `datetime.timedelta` function.                                                       | `timedelta(hours=1)`                              |
+| Category | Function        | Description                                                                                   | Example                                           |
+| -------- | --------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| database | `get_max_value` | Get the maximum value of a column.                                                            | `get_max_value("my_schema.my_table.my_column")`   |
+| database | `get_min_value` | Get the minimum value of a column.                                                            | `get_min_value("my_schema.my_table.my_column")`   |
+| database | `table_exists`  | TRUE/FALSE if the table exists in the database.                                               | `table_exists("my_schema.my_table")`              |
+| database | `query_db`      | Send any query to the database and get back the results.                                      | `query_db("SELECT name FROM my_schema.my_table")` |
+| env      | `env_switch`    | Switch a value based on the given environment (an environment variable of "ENV" by default).  | `env_switch(dev=10, prod=500, default=30)`        |
+| env      | `env_var`       | Retrieve a value from an environment variable.                                                | `env_var("MY_ENVIRONMENT_VARIABLE")`              |
+| time     | `datetime`      | Python's `datetime.datetime` function.                                                        | `datetime(2022, 1, 1)`                            |
+| time     | `previous_date` | Get a date string for the previous date (based on UTC by default).                            | `previous_date()`                                 |
+| time     | `previous_hour` | Get a datetime string the previous hour (based on UTC by default).                            | `previous_hour()`                                 |
+| time     | `timedelta`     | Python's `datetime.timedelta` function.                                                       | `timedelta(hours=1)`                              |
 
 For the database functions, it is recommended that you pass in an engine to the runner ahead of rendering (e.g. `runner = Runner(engine=engine)`). If no engine is provided, the runner will search for a URI in the environment variable `AB__URI`.
 
