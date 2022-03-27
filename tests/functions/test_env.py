@@ -31,3 +31,9 @@ def test_env_switch_default(runner):
     got = runner.render("{{env_switch(default='my_default', prod='my_prod')}}")
     want = "my_default"
     assert got == want
+
+
+def test_env_switch_unspecified(runner):
+    got = runner.render("{{env_switch(prod='my_prod')}}")
+    want = "value_unspecified"
+    assert got == want
