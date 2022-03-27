@@ -3,7 +3,7 @@ import mock
 import pytest
 from pandas import DataFrame
 from sqlalchemy import create_engine
-from absql.functions.db import table_exists, query_db, get_max_value
+from absql.functions.db import table_exists, query_db, get_max_value, get_min_value
 from absql import Runner
 
 
@@ -71,4 +71,10 @@ def test_get_max_value(engine):
 def test_get_max_value_null(engine):
     got = get_max_value("my_table.empty", engine=engine)
     want = None
+    assert got == want
+
+
+def test_get_min_value_null(engine):
+    got = get_min_value("my_table.name", engine=engine)
+    want = "Bonnie"
     assert got == want

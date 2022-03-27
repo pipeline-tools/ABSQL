@@ -43,3 +43,16 @@ def get_max_value(field_location, engine_env="AB__URI", engine=None):
         field=field, table=namespace
     )
     return query_db(query, engine_env, engine)[0].value
+
+
+def get_min_value(field_location, engine_env="AB__URI", engine=None):
+    field_parts = field_location.split(".")
+    field = field_parts[-1]
+    namespace = (
+        None if len(field_parts) == 1 else ".".join(field_parts[: len(field_parts) - 1])
+    )
+
+    query = "SELECT MIN({field}) AS value FROM {table}".format(
+        field=field, table=namespace
+    )
+    return query_db(query, engine_env, engine)[0].value
