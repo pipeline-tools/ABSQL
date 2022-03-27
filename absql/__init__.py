@@ -21,8 +21,8 @@ class Runner:
         """
 
         # Allows an instantiated SQLAlchemy engine to be utilized
-        # in any macro with a engine argument, without the user needing
-        # to specify the engine in the macro call.
+        # in any function with a engine argument, without the user needing
+        # to specify the engine in the function call.
         engine = vars.get("engine", None)
         for k, v in vars.items():
             if v.__class__.__name__ == "function":
