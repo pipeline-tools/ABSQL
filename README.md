@@ -140,7 +140,7 @@ As mentioned elsewhere, users can add functions and context:
 - When instantiating a new runner
 - By using the `set_context` method on an existing runner
 
-Note that functions wich contain a keyword argument `engine` will automatically be passed the engine object attached to the runner.
+Note that functions which contain a keyword argument `engine` will automatically be passed the engine object attached to the runner.
 
 # Environment Configuration
 
