@@ -99,3 +99,6 @@ class Runner:
             return self.render_text(
                 text, self.replace_only, **self.render_context(self.extra_context)
             )
+
+    def set_context(self, **context):
+        self.extra_context.update(context)
