@@ -8,8 +8,8 @@ from absql.utils import nested_apply, get_function_arg_names, partialize_engine_
 
 
 class Runner:
-    def __init__(self, extra_context={}, extra_constructors=[], replace_only=False):
-        self.extra_context = extra_context
+    def __init__(self, extra_constructors=[], replace_only=False, **extra_context):
+        self.extra_context = dict(extra_context)
         self.loader = generate_loader(extra_constructors)
         self.replace_only = replace_only
 
@@ -61,10 +61,10 @@ class Runner:
     @staticmethod
     def render_file(
         file_path,
-        extra_context={},
-        extra_constructors=[],
         loader=None,
         replace_only=False,
+        extra_constructors=[],
+        **extra_context,
     ):
         """
         Given a file path, render SQL with a combination of
@@ -91,9 +91,9 @@ class Runner:
         if text.endswith(accepted_file_types):
             return self.render_file(
                 text,
-                self.extra_context,
                 loader=self.loader,
                 replace_only=self.replace_only,
+                **self.extra_context,
             )
         else:
             return self.render_text(

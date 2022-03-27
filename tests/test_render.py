@@ -12,7 +12,7 @@ def mock_settings_env_vars():
 
 @pytest.fixture()
 def runner():
-    return Runner(extra_context={"greeting": "Hello"})
+    return Runner(greeting="Hello")
 
 
 @pytest.fixture

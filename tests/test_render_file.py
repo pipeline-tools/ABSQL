@@ -46,7 +46,7 @@ def test_render_simple_yml(simple_yml_path):
 
 
 def test_render_additional_sql(extra_sql_path):
-    sql = r.render_file(extra_sql_path, extra_context={"extra": "my_extra_context"})
+    sql = r.render_file(extra_sql_path, extra="my_extra_context")
     assert sql == "SELECT * FROM my_table WHERE my_extra_context"
 
 
@@ -74,9 +74,7 @@ def test_render_jinja_frontmatter(jinja_frontmatter_path):
     def provide_table():
         return "my_func_table"
 
-    sql = r.render_file(
-        jinja_frontmatter_path, extra_context={"get_table": provide_table}
-    )
+    sql = r.render_file(jinja_frontmatter_path, get_table=provide_table)
     assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"
 
 
@@ -84,6 +82,6 @@ def test_render_jinja_frontmatter_instantiated(jinja_frontmatter_path):
     def provide_table():
         return "my_func_table"
 
-    runner = r(extra_context={"get_table": provide_table})
+    runner = r(get_table=provide_table)
     sql = runner.render(jinja_frontmatter_path)
     assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"

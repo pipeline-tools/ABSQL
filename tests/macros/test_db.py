@@ -50,7 +50,7 @@ def test_query_db(engine):
 
 
 def test_db_macros_in_runner(engine):
-    runner = Runner(extra_context={"engine": engine})
+    runner = Runner(engine=engine)
     got = runner.render(
         "{{query_db('SELECT COUNT(*) n FROM my_table') | first | attr('n')}}"
     )
