@@ -26,6 +26,9 @@ def engine():
     return engine
 
 
+@pytest.mark.filterwarnings("ignore:Dialect postgresql")
+@pytest.mark.filterwarnings("ignore:The Engine.has_table")
+@pytest.mark.filterwarnings("ignore:The URL")
 def test_table_exists(engine):
     exists_true = table_exists("my_table", engine=engine)
     exists_false = table_exists("nonexistent_table", engine=engine)
@@ -39,6 +42,7 @@ def mock_settings_env_vars():
         yield
 
 
+@pytest.mark.filterwarnings("ignore:The Engine.has_table")
 def test_ab_uri():
     exists_false = table_exists("some_table")
     assert exists_false is False
