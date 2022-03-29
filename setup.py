@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ABSQL",
-    version="0.0.0",
+    version="0.1.0",
     author="Chris Cardillo",
     author_email="cfcardillo23@gmail.com",
-    description="Powerful SQL rendering",
+    description="A rendering engine for templated SQL",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/chriscardillo/ABSQL",
