@@ -85,3 +85,12 @@ def test_render_jinja_frontmatter_instantiated(jinja_frontmatter_path):
     runner = r(get_table=provide_table)
     sql = runner.render(jinja_frontmatter_path)
     assert sql == "SELECT * FROM my_func_table WHERE name = 'Bob'"
+
+
+def test_var_dict(extra_sql_path):
+    want = "SELECT * FROM {{ my_table_placeholder }} WHERE something different!"
+    got = r.render_file(extra_sql_path, file_context_from="my_var_dict")
+    assert got == want
+    runner = r(file_context_from="my_var_dict")
+    got = runner.render(extra_sql_path)
+    assert got == want

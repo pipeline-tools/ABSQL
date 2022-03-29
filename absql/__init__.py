@@ -8,10 +8,17 @@ from absql.utils import nested_apply, get_function_arg_names, partialize_engine_
 
 
 class Runner:
-    def __init__(self, extra_constructors=[], replace_only=False, **extra_context):
+    def __init__(
+        self,
+        extra_constructors=[],
+        replace_only=False,
+        file_context_from=None,
+        **extra_context,
+    ):
         self.extra_context = dict(extra_context)
         self.loader = generate_loader(extra_constructors)
         self.replace_only = replace_only
+        self.file_context_from = file_context_from
 
     @staticmethod
     def render_text(text, replace_only=False, **vars):
@@ -64,6 +71,7 @@ class Runner:
         loader=None,
         replace_only=False,
         extra_constructors=[],
+        file_context_from=None,
         **extra_context,
     ):
         """
@@ -77,6 +85,9 @@ class Runner:
 
         sql = file_contents["sql"]
         file_contents.pop("sql")
+
+        if file_context_from:
+            file_contents = file_contents.get(file_context_from, None)
 
         rendered_context = Runner.render_context(extra_context, file_contents)
 
@@ -93,6 +104,7 @@ class Runner:
                 text,
                 loader=self.loader,
                 replace_only=self.replace_only,
+                file_context_from=self.file_context_from,
                 **self.extra_context,
             )
         else:
