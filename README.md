@@ -1,9 +1,15 @@
 # ABSQL
+
+[![PyPi](https://img.shields.io/pypi/v/ABSQL.svg)](https://pypi.org/project/ABSQL/)
+![build](https://github.com/chriscardillo/ABSQL/workflows/build/badge.svg)
+[![coverage](https://codecov.io/github/chriscardillo/ABSQL/coverage.svg?branch=main)](https://codecov.io/github/chriscardillo/ABSQL?branch=main)
+[![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 ABSQL is a format for templated SQL, and the ABSQL package is a rendering engine for this format.
 
 ABSQL allows users to inject limitless context - text, objects, and functions - into their SQL templates, both within the rendering engine (the _Runner_) and in the SQL file itself.
 
-The flexibility and extendibility of ABSQL affords SQL engineers with a consistent interface for generating templated SQL, while simultaneous giving downstream orchestration solutions (e.g. Airflow, Dagster, Flyte) the opportunity to develop orchestrator-specific implementations for ABSQL. (A proto-implementation of this approach can be seen in the Airflow-related [gusty](https://github.com/chriscardillo/gusty) package.)
+The flexibility and extendibility of ABSQL affords SQL engineers a consistent interface for generating templated SQL, while simultaneously giving downstream orchestration solutions (e.g. Airflow) the opportunity to develop orchestrator-specific implementations for ABSQL. (A proto-implementation of this approach can be seen in the Airflow-related [gusty](https://github.com/chriscardillo/gusty) package.)
 
 ABSQL leverages the familiar Jinja2 templating engine, as well as YAML-style frontmatter to provide users with a unique and intuitive SQL authoring experience.
 
