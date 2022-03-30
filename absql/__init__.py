@@ -87,7 +87,8 @@ class Runner:
         file_contents.pop("sql")
 
         if file_context_from:
-            file_contents = file_contents.get(file_context_from, None)
+            file_contents.update(file_contents.get(file_context_from, {}))
+            file_contents.pop(file_context_from, {})
 
         rendered_context = Runner.render_context(extra_context, file_contents)
 
