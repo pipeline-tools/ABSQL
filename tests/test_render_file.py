@@ -31,6 +31,11 @@ def constructor_sql_path():
 
 
 @pytest.fixture
+def constructor_plus_function_sql_path():
+    return "tests/files/constructors_plus_functions.sql"
+
+
+@pytest.fixture
 def jinja_frontmatter_path():
     return "tests/files/jinja_frontmatter.sql"
 
@@ -93,4 +98,10 @@ def test_var_dict(extra_sql_path):
     assert got == want
     runner = r(file_context_from="my_var_dict")
     got = runner.render(extra_sql_path)
+    assert got == want
+
+
+def test_constructor_plus_function(constructor_plus_function_sql_path):
+    got = r.render_file(constructor_plus_function_sql_path)
+    want = "SELECT * FROM somewhere_else"
     assert got == want

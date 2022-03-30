@@ -8,7 +8,7 @@ def scalar_to_value(scalar):
     """
     type = scalar.tag.split(":")[-1]
     val = scalar.value
-    return eval("{type}('{val}')".format(type=type, val=val))
+    return eval('{type}("""{val}""")'.format(type=type, val=val))
 
 
 def node_converter(x):
