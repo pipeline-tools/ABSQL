@@ -1,16 +1,16 @@
-build:
+build-image:
 	docker build . -t absql-testing
 
-run:
+run-image:
 	docker run -d -v ${ABSQL_HOME}:/ABSQL --name absql-testing absql-testing
 
 exec:
 	docker exec -it absql-testing /bin/bash
 
-start:
+start-container:
 	docker start absql-testing
 
-stop:
+stop-container:
 	docker stop absql-testing
 
 test:

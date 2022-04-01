@@ -3,7 +3,12 @@ from absql.files import parse, accepted_file_types
 from absql.files.loader import generate_loader
 from jinja2 import Template, DebugUndefined
 from absql.functions import default_functions
-from absql.text import clean_spacing, create_replacements, flatten_inputs
+from absql.text import (
+    clean_spacing,
+    create_replacements,
+    flatten_inputs,
+    pretty_encode_sql,
+)
 from absql.utils import nested_apply, get_function_arg_names, partialize_engine_func
 
 
@@ -21,7 +26,7 @@ class Runner:
         self.file_context_from = file_context_from
 
     @staticmethod
-    def render_text(text, replace_only=False, **vars):
+    def render_text(text, replace_only=False, pretty_encode=False, **vars):
         """
         Given some text, render the template with the vars.
         If a templated variable is unknown, leave it alone.
@@ -42,10 +47,14 @@ class Runner:
             replacements = create_replacements(**flat_vars)
             for k, v in replacements.items():
                 text = text.replace(k, str(v))
-            return cleandoc(text)
+            text = cleandoc(text)
         else:
             template = Template(text, undefined=DebugUndefined)
-            return cleandoc(template.render(**vars))
+            text = cleandoc(template.render(**vars))
+        if pretty_encode:
+            return pretty_encode_sql(text)
+        else:
+            return text
 
     @staticmethod
     def render_context(extra_context=None, file_contents=None):
@@ -72,6 +81,7 @@ class Runner:
         replace_only=False,
         extra_constructors=[],
         file_context_from=None,
+        pretty_encode=False,
         **extra_context,
     ):
         """
@@ -92,26 +102,38 @@ class Runner:
 
         rendered_context = Runner.render_context(extra_context, file_contents)
 
-        return Runner.render_text(sql, replace_only, **rendered_context)
+        rendered = Runner.render_text(
+            text=sql,
+            replace_only=replace_only,
+            pretty_encode=pretty_encode,
+            **rendered_context,
+        )
 
-    def render(self, text):
+        return rendered
+
+    def render(self, text, pretty_encode=False):
         """
         Given text or a file path, render SQL with the a combination of
         the vars in the file and any extras passed to extra_context during
         the instantiation of the runner.
         """
         if text.endswith(accepted_file_types):
-            return self.render_file(
-                text,
+            rendered = self.render_file(
+                file_path=text,
                 loader=self.loader,
                 replace_only=self.replace_only,
                 file_context_from=self.file_context_from,
+                pretty_encode=pretty_encode,
                 **self.extra_context,
             )
         else:
-            return self.render_text(
-                text, self.replace_only, **self.render_context(self.extra_context)
+            rendered = self.render_text(
+                text=text,
+                replace_only=self.replace_only,
+                pretty_encode=pretty_encode,
+                **self.render_context(self.extra_context),
             )
+        return rendered
 
     def set_context(self, **context):
         self.extra_context.update(context)

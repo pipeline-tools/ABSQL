@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ABSQL",
-    version="0.1.2",
+    version="0.1.3",
     author="Chris Cardillo",
     author_email="cfcardillo23@gmail.com",
     description="A rendering engine for templated SQL",
@@ -13,7 +13,15 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/chriscardillo/ABSQL",
     packages=setuptools.find_packages(),
-    install_requires=["flatdict", "Jinja2", "pendulum", "PyYaml", "SQLAlchemy"],
+    install_requires=[
+        "colorama",
+        "flatdict",
+        "Jinja2",
+        "pendulum",
+        "PyYaml",
+        "SQLAlchemy",
+        "sql-metadata",
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
