@@ -168,8 +168,8 @@ Then:
 ```bash
 export ABSQL_HOME="~/path/to/this/project"
 cd $ABSQL_HOME
-make build
-make run
+make build-image
+make run-image
 ```
 
 The above will build the development image under the name `absql-testing` and run a container called `absql-testing`.
@@ -180,14 +180,14 @@ From here, you can:
 - `make test` - Runs `pytest` in a temporary container.
 - `make coverage` - Runs `pytest` and generates a coverage report.
 - `make browse-coverage` - Opens up the coverage report in your browser.
-- `make stop` - Stop the running container.
-- `make start` - Start a stopped container.
+- `make stop-container` - Stop the running container.
+- `make start-container` - Start a stopped container.
 
 ## Rebuilding the Image
 
 ```bash
-make stop # if you have a running container
+make stop-container # if you have a running container
 docker rm absql-testing
-make build
-make run
+make build-image
+make run-image
 ```
