@@ -27,3 +27,9 @@ def test_nested_replace():
     got = r.render_text(template, replace_only=True, **context)
     want = "bar and baz"
     assert got == want
+
+
+def test_pretty_encode():
+    got = r.render_text("SELECT * FROM my_table", pretty_encode=True)
+    want = "\x1b[1m\x1b[96mSELECT\x1b[0m * \x1b[1m\x1b[96mFROM\x1b[0m my_table"
+    assert got == want
