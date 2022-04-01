@@ -1,3 +1,4 @@
+colorama==0.4.4
 duckdb==0.3.2
 duckdb-engine==0.1.8
 flatdict==4.0.1
@@ -7,3 +8,4 @@ pandas==1.4.1
 pendulum==2.1.2
 PyYAML==6.0.0
 SQLAlchemy==1.4.32
+sql-metadata==2.4.0
