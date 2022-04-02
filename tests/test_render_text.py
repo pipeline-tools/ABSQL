@@ -30,6 +30,9 @@ def test_nested_replace():
 
 
 def test_pretty_encode():
-    got = r.render_text("SELECT * FROM my_table", pretty_encode=True)
-    want = "\x1b[1m\x1b[96mSELECT\x1b[0m * \x1b[1m\x1b[96mFROM\x1b[0m my_table"
+    got = r.render_text(
+        """SELECT * FROM "my_schema"."my_table" WHERE my_col = 'my_value'""",
+        pretty_encode=True,
+    )
+    want = """\x1b[1m\x1b[96mSELECT\x1b[0m * \x1b[1m\x1b[96mFROM\x1b[0m \x1b[95m"my_schema"\x1b[39m.\x1b[95m"my_table"\x1b[39m \x1b[1m\x1b[96mWHERE\x1b[0m my_col = \x1b[95m\'my_value\'\x1b[39m"""  # noqa
     assert got == want

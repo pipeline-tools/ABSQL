@@ -23,7 +23,9 @@ def flatten_inputs(**kwargs):
     return flattened
 
 
-def pretty_encode_sql(query, keyword_color=Fore.LIGHTCYAN_EX):
+def pretty_encode_sql(
+    query, keyword_color=Fore.LIGHTCYAN_EX, quote_color=Fore.LIGHTMAGENTA_EX
+):
     p = Parser(query)
 
     keywords = list(set([t.value for t in p.tokens if t.is_keyword]))
@@ -35,5 +37,19 @@ def pretty_encode_sql(query, keyword_color=Fore.LIGHTCYAN_EX):
 
     for keyword, formatted_keyword in replacements.items():
         query = re.sub(r"\b{k}\b".format(k=keyword), formatted_keyword, query)
+
+    quotes = [
+        # single_quotes
+        "'{t}'".format(t=text) for text in list(set(re.findall("'([^']*)'", query)))
+    ] + [
+        # double quotes
+        '"{t}"'.format(t=text)
+        for text in list(set(re.findall('"([^"]*)"', query)))
+    ]
+
+    replacements = {q: quote_color + q + Fore.RESET for q in quotes}
+
+    for quote, formatted_quote in replacements.items():
+        query = re.sub(quote, formatted_quote, query)
 
     return query
