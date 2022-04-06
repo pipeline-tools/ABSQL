@@ -40,7 +40,8 @@ def pretty_encode_sql(
 
     quotes = [
         # single_quotes
-        "'{t}'".format(t=text) for text in list(set(re.findall("'([^']*)'", query)))
+        "'{t}'".format(t=text)
+        for text in list(set(re.findall("'([^']*)'", query)))
     ] + [
         # double quotes
         '"{t}"'.format(t=text)
