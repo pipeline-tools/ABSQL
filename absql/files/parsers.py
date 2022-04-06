@@ -20,7 +20,7 @@ def frontmatter_load(file_path, loader=None):
             metadata = yaml.load(metadata, Loader=loader)
             content = content.strip("\n")
         else:
-            metadata = None
+            metadata = {}
             content = yaml.load(text, Loader=loader)
     return {"metadata": metadata, "content": content}
 
@@ -28,7 +28,6 @@ def frontmatter_load(file_path, loader=None):
 def parse_generic(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
-    # Read either the frontmatter or the parsed yaml file (using "or" to coalesce them)
     raw_content = frontmatter_load(file_path)
     file_content = raw_content["metadata"] or raw_content["content"]
     return file_content

@@ -20,9 +20,19 @@ def simple_sql_path():
     return "tests/files/simple.sql"
 
 
+@pytest.fixture
+def no_frontmatter_path():
+    return "tests/files/no_frontmatter.sql"
+
+
 def test_render_simple_sql(runner, simple_sql_path):
     sql = runner.render(simple_sql_path)
     assert sql == "SELECT * FROM my_table"
+
+
+def test_render_no_frontmatter(runner, no_frontmatter_path):
+    sql = runner.render(no_frontmatter_path)
+    assert sql == "SELECT * FROM Hello"
 
 
 def test_render_text_only(runner):
