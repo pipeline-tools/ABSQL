@@ -15,13 +15,13 @@ from absql.utils import nested_apply, get_function_arg_names, partialize_engine_
 class Runner:
     def __init__(
         self,
-        extra_constructors=[],
+        extra_constructors=None,
         replace_only=False,
         file_context_from=None,
         **extra_context,
     ):
         self.extra_context = dict(extra_context)
-        self.loader = generate_loader(extra_constructors)
+        self.loader = generate_loader(extra_constructors or [])
         self.replace_only = replace_only
         self.file_context_from = file_context_from
 
@@ -79,7 +79,7 @@ class Runner:
         file_path,
         loader=None,
         replace_only=False,
-        extra_constructors=[],
+        extra_constructors=None,
         file_context_from=None,
         pretty_encode=False,
         **extra_context,
@@ -89,7 +89,7 @@ class Runner:
         the vars in the file and any extras passed to extra_context.
         """
         if loader is None:
-            loader = generate_loader(extra_constructors)
+            loader = generate_loader(extra_constructors or [])
 
         file_contents = parse(file_path, loader=loader)
 
