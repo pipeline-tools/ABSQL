@@ -2,11 +2,15 @@ import pytest
 import mock
 import os
 from absql import Runner as r
+from absql.functions.time import previous_date
 
 
 @pytest.fixture(autouse=True)
 def mock_settings_env_vars():
-    with mock.patch.dict(os.environ, {"name": "Bob"}):
+    with mock.patch.dict(
+        os.environ,
+        {"name": "Bob", "ENV": "dev", "my_env_var": "foo", "my_timezone": "EST"},
+    ):
         yield
 
 
@@ -38,6 +42,18 @@ def constructor_plus_function_sql_path():
 @pytest.fixture
 def jinja_frontmatter_path():
     return "tests/files/jinja_frontmatter.sql"
+
+
+@pytest.fixture
+def nested_constructors_path():
+    return "tests/files/nested_constructors.sql"
+
+
+def test_nested_constructors(nested_constructors_path):
+    sql = r.render_file(nested_constructors_path)
+    assert sql == "SELECT * FROM foo WHERE bar AND {previous}".format(
+        previous=previous_date("EST")
+    )
 
 
 def test_render_simple_sql(simple_sql_path):
