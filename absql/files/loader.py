@@ -19,6 +19,9 @@ def scalar_to_value(scalar, constructor_dict):
     if type.startswith("!"):
         func = constructor_dict.get(type)
         return func(val)
+    # Handle null type - https://yaml.org/type/null.html
+    if type == "null":
+        return None
     return eval('{type}("""{val}""")'.format(type=type, val=val))
 
 
