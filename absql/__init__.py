@@ -111,12 +111,16 @@ class Runner:
 
         return rendered
 
-    def render(self, text, pretty_encode=False, replace_only=None):
+    def render(self, text, pretty_encode=False, replace_only=None, **extra_context):
         """
         Given text or a file path, render SQL with the a combination of
         the vars in the file and any extras passed to extra_context during
         the instantiation of the runner.
         """
+
+        current_context = self.extra_context.copy()
+        current_context.update(extra_context)
+
         if text.endswith(accepted_file_types):
             rendered = self.render_file(
                 file_path=text,
@@ -124,14 +128,14 @@ class Runner:
                 replace_only=replace_only or self.replace_only,
                 file_context_from=self.file_context_from,
                 pretty_encode=pretty_encode,
-                **self.extra_context,
+                **current_context,
             )
         else:
             rendered = self.render_text(
                 text=text,
                 replace_only=replace_only or self.replace_only,
                 pretty_encode=pretty_encode,
-                **self.render_context(self.extra_context),
+                **self.render_context(current_context),
             )
         return rendered
 

@@ -15,6 +15,11 @@ def runner():
     return Runner(greeting="Hello")
 
 
+@pytest.fixture()
+def contextless_runner():
+    return Runner()
+
+
 @pytest.fixture
 def simple_sql_path():
     return "tests/files/simple.sql"
@@ -38,6 +43,18 @@ def test_render_no_frontmatter(runner, no_frontmatter_path):
 def test_render_text_only(runner):
     got = runner.render("{{greeting}}, {{env_var('name')}}!")
     want = "Hello, Bob!"
+    assert got == want
+
+
+def test_render_extra_context(runner):
+    got = runner.render("{{new_greeting}}, {{env_var('name')}}!", new_greeting="Hey")
+    want = "Hey, Bob!"
+    assert got == want
+
+
+def test_contextless_runner(contextless_runner):
+    got = contextless_runner.render("{{no_greeting}}, Bill!")
+    want = "{{ no_greeting }}, Bill!"
     assert got == want
 
 
