@@ -19,6 +19,12 @@ def frontmatter_load(file_path, loader=None):
             _, metadata, content = FM_BOUNDARY.split(text, 2)
             metadata = yaml.load(metadata, Loader=loader)
             content = content.strip("\n")
+        elif text.startswith("{"):
+            tmp_header = "/*ABSQLQSBA*/ "
+            text = tmp_header + text
+            metadata = {}
+            content = yaml.load(text, Loader=loader)
+            content = content.replace(tmp_header, "")
         else:
             metadata = {}
             content = yaml.load(text, Loader=loader)

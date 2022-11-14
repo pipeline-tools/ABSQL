@@ -1,1 +1,3 @@
-SELECT * FROM {{greeting}}
+{% set cols='*' %}
+
+SELECT {{cols}} FROM {{greeting}}
