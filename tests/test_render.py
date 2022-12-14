@@ -65,7 +65,7 @@ def test_replace_only_changes(runner):
     replaced_only = runner.render(
         "{{env_switch(foo='address')}} and {{greeting}}", replace_only=True
     )
-    assert replaced_only == "{{env_switch(foo='address')}} and Hello"
+    assert replaced_only == "{{ env_switch(foo='address') }} and Hello"
 
     original_2 = runner.render("{{env_switch(foo='address')}} and {{greeting}}")
     assert original_2 == "value_unspecified and Hello"

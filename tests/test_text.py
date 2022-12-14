@@ -8,6 +8,18 @@ def test_clean_spaces():
     assert got == want
 
 
+def test_clean_spaces_2():
+    want = "{{ hello }}   world"
+
+    text = "{{hello }}   world"
+    got = clean_spacing(text)
+    assert got == want
+
+    text = "{{ hello}}   world"
+    got = clean_spacing(text)
+    assert got == want
+
+
 def test_clean_tabs():
     text = "{{  hello   }}   world"
     got = clean_spacing(text)
