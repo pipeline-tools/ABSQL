@@ -18,12 +18,14 @@ class Runner:
         extra_constructors=None,
         replace_only=False,
         file_context_from=None,
+        partial_kwargs=None,
         **extra_context,
     ):
         self.extra_context = dict(extra_context)
         self.loader = generate_loader(extra_constructors or [])
         self.replace_only = replace_only
         self.file_context_from = file_context_from
+        self.partial_kwargs = partial_kwargs or ["engine"]
 
     @staticmethod
     def render_text(
@@ -37,7 +39,6 @@ class Runner:
         # Allows an instantiated SQLAlchemy engine to be utilized
         # in any function with a engine argument, without the user needing
         # to specify the engine in the function call.
-        partial_kwargs = partial_kwargs or ["engine"]
         for k, v in vars.items():
             if v.__class__.__name__ == "function":
                 vars[k] = partialize_function(v, partial_kwargs=partial_kwargs, **vars)
@@ -135,6 +136,7 @@ class Runner:
                 replace_only=replace_only or self.replace_only,
                 file_context_from=self.file_context_from,
                 pretty_encode=pretty_encode,
+                partial_kwargs=self.partial_kwargs,
                 **current_context,
             )
         else:
@@ -142,7 +144,10 @@ class Runner:
                 text=text,
                 replace_only=replace_only or self.replace_only,
                 pretty_encode=pretty_encode,
-                **self.render_context(current_context),
+                partial_kwargs=self.partial_kwargs,
+                **self.render_context(
+                    current_context, partial_kwargs=self.partial_kwargs
+                ),
             )
         return rendered
 

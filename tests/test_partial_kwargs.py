@@ -36,3 +36,13 @@ def test_render_file_extra_partial(planet):
     )
     want = "Hello Earth, Goodbye Earth"
     assert got == want
+
+
+def test_render_runner_extra_partial(planet):
+    r = Runner(planet=planet, planet_name="Earth", partial_kwargs=["planet_name"])
+    text_got = r.render("Hello {{planet()}}")
+    text_want = "Hello Earth"
+    assert text_got == text_want
+    file_got = r.render("tests/files/partial_planet.sql")
+    file_want = "Hello Earth, Goodbye Earth"
+    assert file_got == file_want
