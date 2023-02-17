@@ -71,7 +71,7 @@ class Runner:
         current_context.update(extra_context)
 
         if text.endswith(accepted_file_types):
-            rendered = self.render_file(
+            rendered = render_file(
                 file_path=text,
                 loader=self.loader,
                 replace_only=replace_only or self.replace_only,
@@ -81,12 +81,12 @@ class Runner:
                 **current_context,
             )
         else:
-            rendered = self.render_text(
+            rendered = render_text(
                 text=text,
                 replace_only=replace_only or self.replace_only,
                 pretty_encode=pretty_encode,
                 partial_kwargs=self.partial_kwargs,
-                **self.render_context(
+                **render_context(
                     current_context, partial_kwargs=self.partial_kwargs
                 ),
             )
