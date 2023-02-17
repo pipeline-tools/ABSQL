@@ -9,7 +9,7 @@ from absql.text import (
     flatten_inputs,
     pretty_encode_sql,
 )
-from absql.utils import nested_apply, get_function_arg_names, partialize_function
+from absql.utils import nested_apply, partialize_function
 
 
 class Runner:
@@ -26,7 +26,9 @@ class Runner:
         self.file_context_from = file_context_from
 
     @staticmethod
-    def render_text(text, replace_only=False, pretty_encode=False, **vars):
+    def render_text(
+        text, replace_only=False, pretty_encode=False, partial_kwargs=None, **vars
+    ):
         """
         Given some text, render the template with the vars.
         If a templated variable is unknown, leave it alone.
@@ -35,11 +37,10 @@ class Runner:
         # Allows an instantiated SQLAlchemy engine to be utilized
         # in any function with a engine argument, without the user needing
         # to specify the engine in the function call.
-        engine = vars.get("engine", None)
+        partial_kwargs = partial_kwargs or ["engine"]
         for k, v in vars.items():
             if v.__class__.__name__ == "function":
-                if "engine" in get_function_arg_names(v):
-                    vars[k] = partialize_function(v, engine=engine)
+                vars[k] = partialize_function(v, partial_kwargs=partial_kwargs, **vars)
 
         if replace_only:
             text = clean_spacing(text)
