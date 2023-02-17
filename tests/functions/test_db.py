@@ -10,16 +10,16 @@ from absql import Runner
 @pytest.fixture(scope="module")
 def engine():
     engine = create_engine("duckdb:///:memory:")
+
+    df = DataFrame.from_dict(
+        {
+            "name": ["Thelma", "Bonnie"],
+            "friend": ["Louise", "Clyde"],
+            "empty": [None, None],
+        }
+    )
+
     with engine.connect() as connection:
-
-        df = DataFrame.from_dict(
-            {
-                "name": ["Thelma", "Bonnie"],
-                "friend": ["Louise", "Clyde"],
-                "empty": [None, None],
-            }
-        )
-
         with connection.begin():
             df.to_sql("my_table", connection)
 
