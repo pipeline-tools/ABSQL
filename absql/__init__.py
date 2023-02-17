@@ -58,7 +58,7 @@ class Runner:
             return text
 
     @staticmethod
-    def render_context(extra_context=None, file_contents=None):
+    def render_context(extra_context=None, file_contents=None, partial_kwargs=None):
         """
         Render context dictionaries passed through a function call or
         file frontmatter (file_contents), with file_contents taking
@@ -71,7 +71,9 @@ class Runner:
             rendered_context.update(**file_contents)
         rendered_context = nested_apply(
             rendered_context,
-            lambda x: Runner.render_text(x, **rendered_context),
+            lambda x: Runner.render_text(
+                x, partial_kwargs=partial_kwargs, **rendered_context
+            ),
         )
         return rendered_context
 
@@ -83,6 +85,7 @@ class Runner:
         extra_constructors=None,
         file_context_from=None,
         pretty_encode=False,
+        partial_kwargs=None,
         **extra_context,
     ):
         """
@@ -101,12 +104,15 @@ class Runner:
             file_contents.update(file_contents.get(file_context_from, {}))
             file_contents.pop(file_context_from, {})
 
-        rendered_context = Runner.render_context(extra_context, file_contents)
+        rendered_context = Runner.render_context(
+            extra_context, file_contents, partial_kwargs
+        )
 
         rendered = Runner.render_text(
             text=sql,
             replace_only=replace_only,
             pretty_encode=pretty_encode,
+            partial_kwargs=partial_kwargs,
             **rendered_context,
         )
 
