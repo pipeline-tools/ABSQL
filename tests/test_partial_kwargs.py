@@ -2,9 +2,15 @@ import pytest
 from absql import Runner
 
 
-def test_render_text_extra_partial():
+@pytest.fixture()
+def planet():
     def planet(planet_name):
         return planet_name
+
+    return planet
+
+
+def test_render_text_extra_partial(planet):
 
     got = Runner.render_text(
         "Hello {{planet()}}",
@@ -16,9 +22,6 @@ def test_render_text_extra_partial():
     assert got == want
 
 
-def test_default_render_text_extra_partial_fails():
-    def planet(planet_name):
-        return planet_name
-
+def test_default_render_text_extra_partial_fails(planet):
     with pytest.raises(TypeError):
         Runner.render_text("Hello {{planet()}}", planet=planet, planet_name="Earth")
