@@ -9,7 +9,7 @@ from absql.text import (
     flatten_inputs,
     pretty_encode_sql,
 )
-from absql.utils import nested_apply, get_function_arg_names, partialize_engine_func
+from absql.utils import nested_apply, get_function_arg_names, partialize_function
 
 
 class Runner:
@@ -39,7 +39,7 @@ class Runner:
         for k, v in vars.items():
             if v.__class__.__name__ == "function":
                 if "engine" in get_function_arg_names(v):
-                    vars[k] = partialize_engine_func(v, engine=engine)
+                    vars[k] = partialize_function(v, engine=engine)
 
         if replace_only:
             text = clean_spacing(text)
