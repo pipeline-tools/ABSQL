@@ -1,5 +1,5 @@
 from absql.functions.env import env_var
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.engine.base import Engine
 
 
@@ -22,7 +22,8 @@ def query_db(query, engine_env="AB__URI", engine=None):
     engine = (
         handle_engine(env_var(engine_env)) if engine is None else handle_engine(engine)
     )
-    return engine.execute(query).fetchall()
+    with engine.connect() as connection:
+        return connection.execute(text(query)).fetchall()
 
 
 def handle_engine(engine):
