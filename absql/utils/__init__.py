@@ -20,7 +20,8 @@ def get_function_arg_names(func):
     return list(signature(func).parameters.keys())
 
 
-def partialize_function(func, partial_kwargs=["engine"], **kwargs):
+def partialize_function(func, partial_kwargs=None, **kwargs):
+    partial_kwargs = partial_kwargs or ["engine"]
     function_args = get_function_arg_names(func)
 
     kwargs_to_partialize = {
