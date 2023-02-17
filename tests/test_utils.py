@@ -35,7 +35,7 @@ def test_partialize_function():
     def simple_func(a, engine):
         return a + engine
 
-    simple_func = partialize_function(simple_func, 7)
+    simple_func = partialize_function(simple_func, engine=7)
     got = simple_func(3)
     want = 10
     assert got == want

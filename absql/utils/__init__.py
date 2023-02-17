@@ -19,8 +19,13 @@ def nested_apply(x, f):
 def get_function_arg_names(func):
     return list(signature(func).parameters.keys())
 
-def partialize_function(func, engine):
-    if "engine" in get_function_arg_names(func):
-        return partial(func, engine=engine)
+
+def partialize_function(func, partial_kwargs=["engine"], **kwargs):
+    function_args = get_function_arg_names(func)
+
+    kwargs_to_partialize = {k: v for k, v in kwargs.items() if k in function_args}
+
+    if kwargs_to_partialize:
+        return partial(func, **kwargs_to_partialize)
     else:
         return func
