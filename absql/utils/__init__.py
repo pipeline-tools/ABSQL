@@ -23,7 +23,9 @@ def get_function_arg_names(func):
 def partialize_function(func, partial_kwargs=["engine"], **kwargs):
     function_args = get_function_arg_names(func)
 
-    kwargs_to_partialize = {k: v for k, v in kwargs.items() if k in function_args}
+    kwargs_to_partialize = {
+        k: v for k, v in kwargs.items() if k in function_args and k in partial_kwargs
+    }
 
     if kwargs_to_partialize:
         return partial(func, **kwargs_to_partialize)
