@@ -1,5 +1,5 @@
 from inspect import cleandoc
-from jinja2 import Template, DebugUndefined
+from jinja2 import Environment, DebugUndefined
 from absql.text import (
     clean_spacing,
     create_replacements,
@@ -19,6 +19,7 @@ def render_text(
     Given some text, render the template with the vars.
     If a templated variable is unknown, leave it alone.
     """
+    env = Environment(undefined=DebugUndefined)
 
     # Allows an instantiated SQLAlchemy engine to be utilized
     # in any function with a engine argument, without the user needing
@@ -26,6 +27,7 @@ def render_text(
     for k, v in vars.items():
         if v.__class__.__name__ == "function":
             vars[k] = partialize_function(v, partial_kwargs=partial_kwargs, **vars)
+            env.filters[k] = vars[k]
 
     if replace_only:
         text = clean_spacing(text)
@@ -35,7 +37,7 @@ def render_text(
             text = text.replace(k, str(v))
         text = cleandoc(text)
     else:
-        template = Template(text, undefined=DebugUndefined)
+        template = env.from_string(text)
         text = cleandoc(template.render(**vars))
     if pretty_encode:
         return pretty_encode_sql(text)

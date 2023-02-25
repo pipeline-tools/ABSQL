@@ -86,9 +86,7 @@ class Runner:
                 replace_only=replace_only or self.replace_only,
                 pretty_encode=pretty_encode,
                 partial_kwargs=self.partial_kwargs,
-                **render_context(
-                    current_context, partial_kwargs=self.partial_kwargs
-                ),
+                **render_context(current_context, partial_kwargs=self.partial_kwargs),
             )
         return rendered
 

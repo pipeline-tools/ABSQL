@@ -36,3 +36,42 @@ def test_pretty_encode():
     )
     want = """\x1b[1m\x1b[96mSELECT\x1b[0m * \x1b[1m\x1b[96mFROM\x1b[0m \x1b[95m"my_schema"\x1b[39m.\x1b[95m"my_table"\x1b[39m \x1b[1m\x1b[96mWHERE\x1b[0m my_col = \x1b[95m\'my_value\'\x1b[39m"""  # noqa
     assert got == want
+
+
+def test_filters():
+    def alter_text(x, upper=True):
+        if upper:
+            return x.upper()
+        return x.lower()
+
+    you = "yOu"
+
+    upper_want = "hey YOU"
+    upper_got = r.render_text(
+        "hey {{person | case_it}}", person=you, case_it=alter_text
+    )
+    assert upper_got == upper_want
+
+    lower_want = "hey you"
+    lower_got = r.render_text(
+        "hey {{person | case_it(upper=False)}}", person=you, case_it=alter_text
+    )
+    assert lower_want == lower_got
+
+    partial_want = "hey you"
+    partial_got = r.render_text(
+        "hey {{person | case_it}}",
+        person=you,
+        case_it=alter_text,
+        upper=False,
+        partial_kwargs=["upper"],
+    )
+    assert partial_want == partial_got
+
+    pipeline_want = "hey YOU"
+    pipeline_got = r.render_text(
+        "hey {{person | case_it(upper=False) | case_it}}",
+        person=you,
+        case_it=alter_text,
+    )
+    assert pipeline_want == pipeline_got
