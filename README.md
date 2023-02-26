@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/chriscardillo/absql/main/images/logo.svg?raw=true)
+![logo](https://raw.githubusercontent.com/chriscardillo/absql/main/images/logo_400.svg?raw=true)
 
 [![PyPi](https://img.shields.io/pypi/v/ABSQL.svg)](https://pypi.org/project/ABSQL/)
 ![build](https://github.com/chriscardillo/ABSQL/workflows/build/badge.svg)
