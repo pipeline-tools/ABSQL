@@ -11,7 +11,7 @@ ABSQL is a format for templated SQL, and the ABSQL package is a rendering engine
 
 ABSQL allows users to inject limitless context - text, objects, and functions - into their SQL templates, both within the rendering engine (the _Runner_) and in the SQL file itself.
 
-The flexibility and extendibility of ABSQL affords SQL engineers a consistent interface for generating templated SQL, while simultaneously giving downstream orchestration solutions (e.g. Airflow) the opportunity to develop orchestrator-specific implementations for ABSQL. (A proto-implementation of this approach can be seen in the Airflow-related [gusty](https://github.com/chriscardillo/gusty) package.)
+The flexibility and extendibility of ABSQL affords SQL engineers a consistent interface for generating templated SQL, while simultaneously giving downstream orchestration solutions (e.g. Airflow) the opportunity to develop orchestrator-specific implementations for ABSQL.
 
 ABSQL leverages the familiar Jinja2 templating engine, as well as YAML-style frontmatter to provide users with a unique and intuitive SQL authoring experience.
 
@@ -148,7 +148,7 @@ As mentioned elsewhere, users can add functions and context:
 - When instantiating a new runner
 - By using the `set_context` method on an existing runner
 
-Note that functions which contain a keyword argument `engine` will automatically be passed the engine object attached to the runner.
+Note that functions which contain a keyword argument `engine` will automatically be passed the engine object attached to the runner by default. Users can set desired keyword arguments to automatically be added to functions by passing a list of keyword argument names to the `partial_kwargs` argument, available in any of the `render_[x]` functions, as well as when instantiating a Runner object.
 
 # Environment Configuration
 
