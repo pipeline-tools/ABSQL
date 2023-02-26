@@ -1,9 +1,11 @@
-# ABSQL
+![logo](https://raw.githubusercontent.com/chriscardillo/absql/main/images/logo_500.svg?raw=true)
 
 [![PyPi](https://img.shields.io/pypi/v/ABSQL.svg)](https://pypi.org/project/ABSQL/)
 ![build](https://github.com/chriscardillo/ABSQL/workflows/build/badge.svg)
 [![codecov](https://codecov.io/gh/chriscardillo/ABSQL/branch/main/graph/badge.svg?token=KHJ6RHD56F)](https://codecov.io/gh/chriscardillo/ABSQL)
 [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+---
 
 ABSQL is a format for templated SQL, and the ABSQL package is a rendering engine for this format.
 
