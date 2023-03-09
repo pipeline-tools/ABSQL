@@ -91,4 +91,5 @@ class Runner:
         return rendered
 
     def set_context(self, **context):
+        self.extra_context = self.extra_context.copy()
         self.extra_context.update(context)
