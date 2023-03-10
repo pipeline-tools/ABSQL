@@ -70,9 +70,14 @@ def wrap_yaml(func, constructor_dict):
 
 def generate_loader(extra_constructors=None):
     """Generates a SafeLoader with both default and custom constructors"""
-    loader = yaml.SafeLoader
+
+    class Loader(yaml.SafeLoader):
+        # ensures a new Loader is returned
+        # every time the function is called
+        pass
+
     extra_constructors = extra_constructors or []
-    default_constructor_dict = default_constructors.copy()
+    unchecked_constructors = default_constructors.copy()
 
     if isinstance(extra_constructors, list) and len(extra_constructors) > 0:
         extra_constructors = {
@@ -80,7 +85,15 @@ def generate_loader(extra_constructors=None):
         }
 
     if len(extra_constructors) > 0:
-        default_constructor_dict.update(extra_constructors)
-    for tag, func in default_constructor_dict.items():
-        loader.add_constructor(tag, wrap_yaml(func, default_constructor_dict))
-    return loader
+        unchecked_constructors.update(extra_constructors)
+
+    # Ensure all tags start with "!"
+    checked_constructors = {}
+    for tag, func in unchecked_constructors.items():
+        if not tag.startswith("!"):
+            tag = "!" + tag
+        checked_constructors[tag] = func
+
+    for tag, func in checked_constructors.items():
+        Loader.add_constructor(tag, wrap_yaml(func, checked_constructors))
+    return Loader
