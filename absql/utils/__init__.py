@@ -1,3 +1,4 @@
+from absql.files.parsers import FM_BOUNDARY
 from inspect import signature
 from functools import partial
 
@@ -32,3 +33,13 @@ def partialize_function(func, partial_kwargs=None, **kwargs):
         return partial(func, **kwargs_to_partialize)
     else:
         return func
+
+
+def load_body(file_path):
+    with open(file_path, "r") as file:
+        text = "".join(file.readlines())
+        if text.startswith("---"):
+            _, metadata, content = FM_BOUNDARY.split(text, 2)
+            return content
+        else:
+            return text

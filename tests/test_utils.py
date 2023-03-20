@@ -1,4 +1,9 @@
-from absql.utils import nested_apply, get_function_arg_names, partialize_function
+from absql.utils import (
+    nested_apply,
+    get_function_arg_names,
+    partialize_function,
+    load_body,
+)
 
 
 def test_simple_apply():
@@ -39,3 +44,17 @@ def test_partialize_function():
     got = simple_func(3)
     want = 10
     assert got == want
+
+
+def test_load_body_frontmatter():
+    assert (
+        load_body("tests/files/simple.sql")
+        == "\nSELECT * FROM {{my_table_placeholder}}\n"
+    )
+
+
+def test_load_body_no_frontmatter():
+    assert (
+        load_body("tests/files/no_frontmatter.sql")
+        == "{% set cols='*' %}\n\nSELECT {{cols}} FROM {{greeting}}\n"
+    )

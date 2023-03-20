@@ -2,6 +2,8 @@ import re
 import yaml
 from absql.files.loader import generate_loader
 
+FM_BOUNDARY = re.compile(r"^-{3,}\s*$", re.MULTILINE)
+
 
 def frontmatter_load(file_path, loader=None):
     """
@@ -12,7 +14,6 @@ def frontmatter_load(file_path, loader=None):
     """
     if loader is None:
         loader = generate_loader()
-    FM_BOUNDARY = re.compile(r"^-{3,}\s*$", re.MULTILINE)
     with open(file_path, "r") as file:
         text = "".join(file.readlines())
         if text.startswith("---"):
