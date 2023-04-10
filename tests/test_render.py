@@ -12,7 +12,10 @@ def mock_settings_env_vars():
 
 @pytest.fixture()
 def runner():
-    return Runner(greeting="Hello")
+    def double_it(x):
+        return x + x
+
+    return Runner(extra_constructors={"double_it": double_it}, greeting="Hello")
 
 
 @pytest.fixture()
@@ -69,3 +72,8 @@ def test_replace_only_changes(runner):
 
     original_2 = runner.render("{{env_switch(foo='address')}} and {{greeting}}")
     assert original_2 == "value_unspecified and Hello"
+
+def test_runner_renders_yaml(runner):
+    got = runner.render("tests/files/constructor.yml")
+    want = "SELECT * FROM tabletable"
+    assert got == want

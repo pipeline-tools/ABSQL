@@ -35,7 +35,7 @@ def frontmatter_load(file_path, loader=None):
 def parse_generic(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
-    raw_content = frontmatter_load(file_path)
+    raw_content = frontmatter_load(file_path, loader=loader)
     file_content = raw_content["metadata"] or raw_content["content"]
     return file_content
 

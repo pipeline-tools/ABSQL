@@ -1,0 +1,3 @@
+my_table_placeholder: !double_it table
+sql: |-
+  SELECT * FROM {{my_table_placeholder}}
