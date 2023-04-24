@@ -13,6 +13,9 @@ start-container:
 stop-container:
 	docker stop absql-testing
 
+remove-container:
+	docker rm absql-testing
+
 test:
 	docker run --rm -v ${ABSQL_HOME}:/ABSQL --name absql-make-test absql-testing pytest
 
