@@ -11,7 +11,7 @@ setuptools.setup(
     description="A rendering engine for templated SQL",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/chriscardillo/ABSQL",
+    url="https://github.com/pipeline-tools/ABSQL",
     packages=setuptools.find_packages(),
     install_requires=[
         "colorama",
