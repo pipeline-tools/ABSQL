@@ -8,7 +8,7 @@ FM_BOUNDARY = re.compile(r"^-{3,}\s*$", re.MULTILINE)
 def frontmatter_load(file_path, loader=None):
     """
     Loads YAML frontmatter. Expects a YAML block at the top of the file
-    that starts and ends with "---". In use in favor of frontmatter.load
+    that starts and ends with "---" (for non-YAML files). In use in favor of frontmatter.load
     so that custom dag_constructors (via PyYaml) can be used uniformly across
     all file types.
     """
@@ -16,7 +16,9 @@ def frontmatter_load(file_path, loader=None):
         loader = generate_loader()
     with open(file_path, "r") as file:
         text = "".join(file.readlines())
-        if text.startswith("---"):
+        # Valid YAML files can begin with a document header (i.e. '---') and doesn't require a terminating
+        # marker; therefore, the "frontmatter" doesn't necessarily need to begin and end with this string.
+        if text.startswith("---") and not file_path.endswith((".yml", ".yaml")):
             _, metadata, content = FM_BOUNDARY.split(text, 2)
             metadata = yaml.load(metadata, Loader=loader)
             content = content.strip("\n")
