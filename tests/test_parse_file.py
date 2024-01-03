@@ -19,7 +19,10 @@ def test_simple_sql(simple_sql_path):
     argnames="yml_path",
     argvalues=[
         pytest.param("tests/files/simple.yml", id="simple_yml"),
-        pytest.param("tests/files/simple_with_doc_header.yml", id="simple_yml_with_doc_header")],
+        pytest.param(
+            "tests/files/simple_with_doc_header.yml", id="simple_yml_with_doc_header"
+        ),
+    ],
 )
 def test_simple_yml(yml_path):
     res = parse(yml_path)
