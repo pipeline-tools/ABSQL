@@ -53,7 +53,6 @@ def wrap_yaml(func, constructor_dict):
         value = node_converter(x, constructor_dict)
 
         if value is not None:
-
             if isinstance(value, list):
                 return func(*value)
 

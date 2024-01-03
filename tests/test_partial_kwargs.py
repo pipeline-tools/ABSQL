@@ -11,7 +11,6 @@ def planet():
 
 
 def test_render_text_extra_partial(planet):
-
     got = Runner.render_text(
         "Hello {{planet()}}",
         planet=planet,
