@@ -73,6 +73,7 @@ def test_replace_only_changes(runner):
     original_2 = runner.render("{{env_switch(foo='address')}} and {{greeting}}")
     assert original_2 == "value_unspecified and Hello"
 
+
 def test_runner_renders_yaml(runner):
     got = runner.render("tests/files/constructor.yml")
     want = "SELECT * FROM tabletable"

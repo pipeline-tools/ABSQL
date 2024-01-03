@@ -1,0 +1,4 @@
+---
+my_table_placeholder: my_table
+sql: |-
+  SELECT * FROM {{my_table_placeholder}}
