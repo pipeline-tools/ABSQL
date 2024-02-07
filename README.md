@@ -44,12 +44,24 @@ r.render("{{greeting}}, World!")
 
 The runner is not bound to plain text, and the context provided by the user is not confined to just the runner. Context can also be passed in through a frontmatter block at the top of a `.sql` file. This frontmatter block is parsed as YAML.
 
-In the example file below, `my_file.sql`, the `table_name` context is provided in the frontmatter block, which starts and ends with three hyphens (`---`). The body of the file contains the templated SQL we want to render.
+In the example file below, `my_file.sql`, the `table_name` context is provided in the frontmatter block. This block can either start and end with three hyphens (`---`) or be a block comment at the beginning of the SQL file (`/* ... */`). The body of the file contains the templated SQL we want to render.
 
+Using a frontmatter block contained within `---`:
 ```sql
 ---
 table_name: my_table
 ---
+
+SELECT *
+FROM {{table_name}}
+WHERE greeting = '{{greeting}}'
+```
+
+Or, using a block-comment-style frontmatter block:
+```sql
+/*
+table_name: my_table
+*/
 
 SELECT *
 FROM {{table_name}}
