@@ -1,5 +1,5 @@
 from absql.functions.env import env_var
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 from sqlalchemy.engine.base import Engine
 
 
@@ -12,8 +12,13 @@ def table_exists(table_location, engine_env="AB__URI", engine=None):
         return engine.has_table(
             table_name=table_parts["target"], schema=table_parts["namespace"]
         )
-    else:
+    elif hasattr(engine, "reflection"):
         return engine.reflection.Inspector.has_table(
+            table_name=table_parts["target"], schema=table_parts["namespace"]
+        )
+    else:
+        insp = inspect(engine)
+        return insp.has_table(
             table_name=table_parts["target"], schema=table_parts["namespace"]
         )
 
