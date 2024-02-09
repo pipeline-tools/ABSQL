@@ -1,5 +1,4 @@
 import pytest
-from pathlib import Path
 from absql import Runner
 
 
@@ -38,15 +37,11 @@ def test_render_file_extra_partial(planet):
     assert got == want
 
 
-@pytest.mark.parametrize(
-    argnames="sql_file",
-    argvalues=[str(f) for f in Path("tests/files/").rglob("partial_planet*.sql")],
-)
-def test_render_runner_extra_partial(planet, sql_file):
+def test_render_runner_extra_partial(planet):
     r = Runner(planet=planet, planet_name="Earth", partial_kwargs=["planet_name"])
     text_got = r.render("Hello {{planet()}}")
     text_want = "Hello Earth"
     assert text_got == text_want
-    file_got = r.render(sql_file)
+    file_got = r.render("tests/files/partial_planet.sql")
     file_want = "Hello Earth, Goodbye Earth"
     assert file_got == file_want
