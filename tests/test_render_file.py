@@ -49,6 +49,11 @@ def nested_constructors_path():
     return "tests/files/nested_constructors.sql"
 
 
+@pytest.fixture
+def multi_block_comment_sql_path():
+    return "tests/files/multi_block_comment.sql"
+
+
 def test_nested_constructors(nested_constructors_path):
     sql = r.render_file(nested_constructors_path)
     assert sql == "SELECT * FROM foo WHERE bar AND {previous}".format(
@@ -64,6 +69,14 @@ def test_render_simple_sql(simple_sql_path):
 def test_render_simple_yml(simple_yml_path):
     sql = r.render_file(simple_yml_path)
     assert sql == "SELECT * FROM my_table"
+
+
+def test_render_simple_sql_with_multiple_block_comments(multi_block_comment_sql_path):
+    sql = r.render_file(multi_block_comment_sql_path)
+    assert sql == (
+        "/*\nThis is a block comment in the SQL file contents.\n*/\n"
+        "SELECT * FROM my_table"
+    )
 
 
 def test_render_additional_sql(extra_sql_path):
