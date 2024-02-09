@@ -29,6 +29,18 @@ def frontmatter_load(file_path, loader=None):
             metadata = {}
             content = yaml.load(text, Loader=loader)
             content = content.replace(tmp_header, "")
+        elif text.startswith("/*") and file_path.endswith(".sql"):
+            # Retrieve the first matched set of text within a block comment
+            # (i.e. /* ... */).
+            metadata = (
+                re.compile(r"^\/\*([\S\s]*?)\*\/$", re.MULTILINE).match(text).group(1)
+            )
+            # Text after the first block-comment end is considered the content of the
+            # SQL file. This will handle block comments within the contents as well.
+            _, _, content = text.partition("*/")
+
+            metadata = yaml.load(metadata, Loader=loader)
+            content = content.strip("\n")
         else:
             metadata = {}
             content = yaml.load(text, Loader=loader)
