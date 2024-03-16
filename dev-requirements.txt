@@ -7,5 +7,5 @@ mock==5.1.0
 pandas
 pendulum==3.0.0
 PyYAML==6.0.1
-SQLAlchemy==2.0.27
+SQLAlchemy==2.0.28
 sql-metadata==2.10.0
