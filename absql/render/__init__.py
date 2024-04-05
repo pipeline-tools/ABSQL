@@ -70,6 +70,7 @@ def render_file(
     file_context_from=None,
     pretty_encode=False,
     partial_kwargs=None,
+    return_dict=False,
     **extra_context,
 ):
     """
@@ -81,8 +82,7 @@ def render_file(
 
     file_contents = parse(file_path, loader=loader)
 
-    sql = file_contents["sql"]
-    file_contents.pop("sql")
+    sql = file_contents.pop("sql", "")
 
     if file_context_from:
         file_contents.update(file_contents.get(file_context_from, {}))
@@ -97,5 +97,9 @@ def render_file(
         partial_kwargs=partial_kwargs,
         **rendered_context,
     )
+
+    if return_dict:
+        rendered_context["sql"] = rendered
+        return rendered_context
 
     return rendered
