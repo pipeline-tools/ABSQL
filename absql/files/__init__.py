@@ -1,13 +1,13 @@
 import os
 from absql.utils import get_function_arg_names
 from absql.files.loader import generate_loader
-from absql.files.parsers import parse_generic, parse_sql
+from absql.files.parsers import parse_yml, parse_sql, parse_js, parse_py
 
 default_parsers = {
-    ".yml": parse_generic,
-    ".yaml": parse_generic,
-    ".js": parse_generic,
-    ".py": parse_generic,
+    ".yml": parse_yml,
+    ".yaml": parse_yml,
+    ".js": parse_js,
+    ".py": parse_py,
     ".sql": parse_sql,
 }
 

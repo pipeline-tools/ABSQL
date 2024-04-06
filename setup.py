@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ABSQL",
-    version="0.5.2",
+    version="0.5.3",
     author="Chris Cardillo",
     author_email="cfcardillo23@gmail.com",
     description="A rendering engine for templated SQL",
@@ -17,6 +17,7 @@ setuptools.setup(
         "colorama",
         "flatdict",
         "Jinja2",
+        "jupytext",
         "pendulum",
         "PyYaml",
         "SQLAlchemy",
