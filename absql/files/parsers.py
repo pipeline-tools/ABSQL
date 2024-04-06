@@ -1,5 +1,6 @@
 import re
 import yaml
+import jupytext
 from absql.files.loader import generate_loader
 
 FM_BOUNDARY = re.compile(r"^-{3,}\s*$", re.MULTILINE)
@@ -47,7 +48,7 @@ def frontmatter_load(file_path, loader=None):
     return {"metadata": metadata, "content": content}
 
 
-def parse_generic(file_path, loader=None):
+def parse_yml(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
     raw_content = frontmatter_load(file_path, loader=loader)
@@ -61,4 +62,22 @@ def parse_sql(file_path, loader=None):
     raw_content = frontmatter_load(file_path, loader=loader)
     file_content = raw_content["metadata"]
     file_content["sql"] = raw_content["content"]
+    return file_content
+
+
+def parse_js(file_path, loader=None):
+    if loader is None:
+        loader = generate_loader()
+    raw_content = frontmatter_load(file_path, loader=loader)
+    file_content = raw_content["metadata"]
+    file_content["js"] = raw_content["content"]
+    return file_content
+
+
+def parse_py(file_path, loader=None):
+    if loader is None:
+        loader = generate_loader()
+    raw_content = jupytext.read(file_path)["cells"]
+    file_content = yaml.load(raw_content[0]["source"].replace("---", ""), Loader=loader)
+    file_content["py"] = raw_content[1]["source"]
     return file_content
