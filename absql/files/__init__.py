@@ -6,6 +6,8 @@ from absql.files.parsers import parse_generic, parse_sql
 default_parsers = {
     ".yml": parse_generic,
     ".yaml": parse_generic,
+    ".js": parse_generic,
+    ".py": parse_generic,
     ".sql": parse_sql,
 }
 

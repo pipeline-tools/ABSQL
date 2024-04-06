@@ -29,7 +29,7 @@ def frontmatter_load(file_path, loader=None):
             metadata = {}
             content = yaml.load(text, Loader=loader)
             content = content.replace(tmp_header, "")
-        elif text.startswith("/*") and file_path.endswith(".sql"):
+        elif text.startswith("/*") and file_path.endswith((".sql", "js")):
             # Retrieve the first matched set of text within a block comment
             # (i.e. /* ... */).
             metadata = (
