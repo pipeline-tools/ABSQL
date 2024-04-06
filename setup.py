@@ -17,6 +17,7 @@ setuptools.setup(
         "colorama",
         "flatdict",
         "Jinja2",
+        "jupytext",
         "pendulum",
         "PyYaml",
         "SQLAlchemy",
