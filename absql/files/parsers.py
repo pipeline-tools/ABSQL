@@ -53,6 +53,7 @@ def parse_yml(file_path, loader=None):
         loader = generate_loader()
     raw_content = frontmatter_load(file_path, loader=loader)
     file_content = raw_content["metadata"] or raw_content["content"]
+    file_content["absql_body"] = file_content.get("sql", "")
     return file_content
 
 
@@ -61,7 +62,7 @@ def parse_sql(file_path, loader=None):
         loader = generate_loader()
     raw_content = frontmatter_load(file_path, loader=loader)
     file_content = raw_content["metadata"]
-    file_content["sql"] = raw_content["content"]
+    file_content["absql_body"] = raw_content["content"]
     return file_content
 
 
@@ -70,7 +71,7 @@ def parse_js(file_path, loader=None):
         loader = generate_loader()
     raw_content = frontmatter_load(file_path, loader=loader)
     file_content = raw_content["metadata"]
-    file_content["js"] = raw_content["content"]
+    file_content["absql_body"] = raw_content["content"]
     return file_content
 
 
@@ -79,5 +80,5 @@ def parse_py(file_path, loader=None):
         loader = generate_loader()
     raw_content = jupytext.read(file_path)["cells"]
     file_content = yaml.load(raw_content[0]["source"].replace("---", ""), Loader=loader)
-    file_content["py"] = raw_content[1]["source"]
+    file_content["absql_body"] = raw_content[1]["source"]
     return file_content

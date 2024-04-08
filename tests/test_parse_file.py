@@ -9,10 +9,10 @@ def simple_sql_path():
 
 def test_simple_sql(simple_sql_path):
     res = parse(simple_sql_path)
-    assert "sql" in res.keys()
+    assert "absql_body" in res.keys()
     assert "my_table_placeholder" in res.keys()
     assert res["my_table_placeholder"] == "my_table"
-    assert res["sql"] == "SELECT * FROM {{my_table_placeholder}}"
+    assert res["absql_body"] == "SELECT * FROM {{my_table_placeholder}}"
 
 
 @pytest.mark.parametrize(

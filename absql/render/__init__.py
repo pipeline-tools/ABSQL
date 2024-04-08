@@ -82,7 +82,7 @@ def render_file(
 
     file_contents = parse(file_path, loader=loader)
 
-    sql = file_contents.pop("sql", "")
+    text = file_contents.get("absql_body", "")
 
     if file_context_from:
         file_contents.update(file_contents.get(file_context_from, {}))
@@ -91,7 +91,7 @@ def render_file(
     rendered_context = render_context(extra_context, file_contents, partial_kwargs)
 
     rendered = render_text(
-        text=sql,
+        text=text,
         replace_only=replace_only,
         pretty_encode=pretty_encode,
         partial_kwargs=partial_kwargs,
@@ -99,7 +99,7 @@ def render_file(
     )
 
     if return_dict:
-        rendered_context["sql"] = rendered
+        rendered_context["absql_body"] = rendered
         return rendered_context
 
     return rendered
