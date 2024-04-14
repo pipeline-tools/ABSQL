@@ -134,3 +134,13 @@ def test_constructor_plus_function(constructor_plus_function_sql_path):
     got = r.render_file(constructor_plus_function_sql_path)
     want = "SELECT * FROM somewhere_else"
     assert got == want
+
+
+def test_render_file_js_no_front():
+    res = r.render_file("tests/files/simple_no_front.js")
+    assert res == """var my_dict = {"hello": "goodbye"}"""
+
+
+def test_render_file_py_no_front():
+    res = r.render_file("tests/files/simple_no_front.py")
+    assert res == """print("hello")"""

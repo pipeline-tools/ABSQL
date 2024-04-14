@@ -30,7 +30,7 @@ def frontmatter_load(file_path, loader=None):
             metadata = {}
             content = yaml.load(text, Loader=loader)
             content = content.replace(tmp_header, "")
-        elif text.startswith("/*") and file_path.endswith((".sql", "js")):
+        elif text.startswith("/*") and file_path.endswith(".sql"):
             # Retrieve the first matched set of text within a block comment
             # (i.e. /* ... */).
             metadata = (
@@ -69,9 +69,24 @@ def parse_sql(file_path, loader=None):
 def parse_js(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
-    raw_content = frontmatter_load(file_path, loader=loader)
-    file_content = raw_content["metadata"]
-    file_content["absql_body"] = raw_content["content"]
+    with open(file_path, "r") as file:
+        text = "".join(file.readlines())
+        if text.startswith("/*"):
+            # Retrieve the first matched set of text within a block comment
+            # (i.e. /* ... */).
+            metadata = (
+                re.compile(r"^\/\*([\S\s]*?)\*\/$", re.MULTILINE).match(text).group(1)
+            )
+            # Text after the first block-comment end is considered the content of the
+            # SQL file. This will handle block comments within the contents as well.
+            _, _, content = text.partition("*/")
+            metadata = yaml.load(metadata, Loader=loader)
+            content = content.strip("\n")
+        else:
+            metadata = {}
+            content = text.strip("\n")
+    file_content = metadata
+    file_content["absql_body"] = content
     return file_content
 
 
@@ -79,6 +94,11 @@ def parse_py(file_path, loader=None):
     if loader is None:
         loader = generate_loader()
     raw_content = jupytext.read(file_path)["cells"]
-    file_content = yaml.load(raw_content[0]["source"].replace("---", ""), Loader=loader)
-    file_content["absql_body"] = raw_content[1]["source"]
+    if raw_content[0]["source"].startswith("---"):
+        file_content = yaml.load(
+            raw_content[0]["source"].replace("---", ""), Loader=loader
+        )
+        file_content["absql_body"] = raw_content[1]["source"]
+    else:
+        file_content = {"absql_body": raw_content[0]["source"]}
     return file_content
