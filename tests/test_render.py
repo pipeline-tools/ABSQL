@@ -29,6 +29,16 @@ def simple_sql_path():
 
 
 @pytest.fixture
+def simple_js_path():
+    return "tests/files/simple.js"
+
+
+@pytest.fixture
+def backticks_js_path():
+    return "tests/files/backticks.js"
+
+
+@pytest.fixture
 def no_frontmatter_path():
     return "tests/files/no_frontmatter.sql"
 
@@ -36,6 +46,16 @@ def no_frontmatter_path():
 def test_render_simple_sql(runner, simple_sql_path):
     sql = runner.render(simple_sql_path)
     assert sql == "SELECT * FROM my_table"
+
+
+def test_render_simple_js(runner, simple_js_path):
+    js = runner.render(simple_js_path)
+    assert js == "console.log('hello')"
+
+
+def test_render_backticks_js(runner, backticks_js_path):
+    js = runner.render(backticks_js_path)
+    assert js == "console.log(`hello`)"
 
 
 def test_render_no_frontmatter(runner, no_frontmatter_path):
