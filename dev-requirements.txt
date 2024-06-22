@@ -1,6 +1,6 @@
 colorama==0.4.6
-duckdb==0.10.2
-duckdb-engine==0.12.0
+duckdb==1.0.0
+duckdb-engine==0.13.0
 flatdict==4.0.1
 Jinja2==3.1.4
 jupytext==1.16.2
@@ -8,5 +8,5 @@ mock==5.1.0
 pandas
 pendulum==3.0.0
 PyYAML==6.0.1
-SQLAlchemy==2.0.30
-sql-metadata==2.11.0
+SQLAlchemy==2.0.31
+sql-metadata==2.12.0
