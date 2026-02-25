@@ -1,7 +1,7 @@
 colorama==0.4.6
 duckdb==1.0.0
 duckdb-engine==0.13.0
-flatdict==4.0.1
+flatdict>=4.1.0
 Jinja2==3.1.4
 jupytext==1.16.2
 mock==5.1.0

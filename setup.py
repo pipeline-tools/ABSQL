@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "colorama",
-        "flatdict",
+        "flatdict>=4.1.0",
         "Jinja2",
         "jupytext",
         "pendulum",
