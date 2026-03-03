@@ -1,5 +1,5 @@
 from inspect import cleandoc
-from jinja2 import Environment, DebugUndefined
+from jinja2 import Environment, DebugUndefined, FileSystemLoader
 from absql.text import (
     clean_spacing,
     create_replacements,
@@ -28,7 +28,7 @@ def render_text(
         text = cleandoc(text)
 
     else:
-        env = Environment(undefined=DebugUndefined)
+        env = Environment(undefined=DebugUndefined, loader=FileSystemLoader('/'))
 
         for k, v in vars.items():
             if v.__class__.__name__ == "function":

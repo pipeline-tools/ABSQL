@@ -98,3 +98,8 @@ def test_runner_renders_yaml(runner):
     got = runner.render("tests/files/constructor.yml")
     want = "SELECT * FROM tabletable"
     assert got == want
+
+def test_runner_include(runner):
+    got = runner.render("tests/files/includes.sql")
+    want = "SELECT * FROM included_table"
+    assert got == want
