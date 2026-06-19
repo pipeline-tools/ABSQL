@@ -1,0 +1,8 @@
+flag_true: !env_switch
+  dev: true
+  default: false
+flag_false: !env_switch
+  dev: false
+  default: true
+sql: |-
+  SELECT '{{flag_true}}' AS flag_true, '{{flag_false}}' AS flag_false
