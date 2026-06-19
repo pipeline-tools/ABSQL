@@ -30,6 +30,7 @@ jobs:
         python -m pip install pytest-cov
         if [ -f dev-requirements.txt ]; then pip install -r dev-requirements.txt; fi
     - name: Test with pytest
+      working-directory: /ABSQL
       run: |
         pytest --cov=./ --cov-report=xml
     - name: Upload coverage
