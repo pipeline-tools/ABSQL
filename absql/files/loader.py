@@ -22,6 +22,11 @@ def scalar_to_value(scalar, constructor_dict):
     # Handle null type - https://yaml.org/type/null.html
     if type == "null":
         return None
+    # Handle bool type explicitly — ``bool("false")`` is ``True`` in Python
+    # because any non-empty string is truthy, so we cannot use the generic
+    # ``eval('{type}("""{val}""")')`` path below for booleans.
+    if type == "bool":
+        return val.lower().strip() in ("y", "yes", "true", "on")
     return eval('{type}("""{val}""")'.format(type=type, val=val))
 
 
